@@ -1,7 +1,8 @@
-package likelion.festival.controller;
+package likelion.festival.menu.ui;
 
-import likelion.festival.dto.*;
-import likelion.festival.service.MenuService;
+import likelion.festival.menu.application.MenuService;
+import likelion.festival.menu.application.dto.MenuRequestDto;
+import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

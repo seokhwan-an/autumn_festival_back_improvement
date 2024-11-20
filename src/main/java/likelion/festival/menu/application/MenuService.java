@@ -1,13 +1,13 @@
-package likelion.festival.service;
+package likelion.festival.menu.application;
 
-import likelion.festival.dto.MenuRequestDto;
-import likelion.festival.dto.MenuResponseDto;
+import likelion.festival.menu.application.dto.MenuRequestDto;
+import likelion.festival.menu.application.dto.MenuResponseDto;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.entity.Menu;
+import likelion.festival.menu.domain.Menu;
 import likelion.festival.exception.WrongBoothId;
 import likelion.festival.exception.WrongMenuId;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.repository.MenuRepository;
+import likelion.festival.menu.domain.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

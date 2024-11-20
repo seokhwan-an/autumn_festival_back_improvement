@@ -1,18 +1,16 @@
-package likelion.festival.dto;
+package likelion.festival.menu.application.dto;
 
-import likelion.festival.booth.domain.Booth;
 import lombok.*;
 
 @Data
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MenuRequestDto {
+public class MenuResponseDto {
     private Long id;
 
     private String name;
 
     private Long price;
-
-    private Booth booth;
 }
