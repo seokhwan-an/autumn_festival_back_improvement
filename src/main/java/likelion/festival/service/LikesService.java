@@ -1,11 +1,11 @@
 package likelion.festival.service;
 
 import likelion.festival.dto.LikesResponseDto;
-import likelion.festival.entity.Booth;
+import likelion.festival.booth.domain.Booth;
 import likelion.festival.entity.Likes;
 import likelion.festival.exception.WrongBoothId;
 import likelion.festival.exception.WrongLikesKey;
-import likelion.festival.repository.BoothRepository;
+import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

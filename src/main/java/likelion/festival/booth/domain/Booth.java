@@ -1,8 +1,9 @@
-package likelion.festival.entity;
+package likelion.festival.booth.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
+import likelion.festival.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

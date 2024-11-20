@@ -3,7 +3,7 @@ package likelion.festival.converter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import likelion.festival.dto.BoothDto;
+import likelion.festival.booth.application.dto.BoothDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,11 @@
-package likelion.festival.controller;
+package likelion.festival.booth.ui;
 
+import likelion.festival.booth.application.dto.BoothDayLocationDto;
+import likelion.festival.booth.application.dto.BoothDto;
+import likelion.festival.booth.application.dto.BoothFilterDto;
 import likelion.festival.dto.*;
-import likelion.festival.entity.Booth;
-import likelion.festival.entity.Likes;
-import likelion.festival.service.BoothService;
+import likelion.festival.booth.domain.Booth;
+import likelion.festival.booth.application.BoothService;
 import likelion.festival.service.CommentService;
 import likelion.festival.service.ImageService;
 import likelion.festival.service.LikesService;
@@ -42,7 +44,7 @@ public class BoothController {
 
     @GetMapping
     public List<BoothDayLocationDto> boothDayLocation(HttpServletRequest request, @RequestParam String day,
-                                                     @RequestParam String location){
+                                                      @RequestParam String location){
         return boothService.boothDayLocation(request, day, location);
     }
 

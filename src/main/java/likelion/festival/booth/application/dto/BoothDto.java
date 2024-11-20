@@ -1,12 +1,11 @@
-package likelion.festival.dto;
+package likelion.festival.booth.application.dto;
 
 import com.sun.istack.NotNull;
-import likelion.festival.entity.BoothType;
+import likelion.festival.booth.domain.BoothType;
 import likelion.festival.entity.Image;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

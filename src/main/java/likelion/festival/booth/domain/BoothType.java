@@ -1,4 +1,4 @@
-package likelion.festival.entity;
+package likelion.festival.booth.domain;
 
 
 public enum BoothType {

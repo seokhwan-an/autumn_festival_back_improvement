@@ -2,11 +2,11 @@ package likelion.festival.service;
 
 import likelion.festival.dto.MenuRequestDto;
 import likelion.festival.dto.MenuResponseDto;
-import likelion.festival.entity.Booth;
+import likelion.festival.booth.domain.Booth;
 import likelion.festival.entity.Menu;
 import likelion.festival.exception.WrongBoothId;
 import likelion.festival.exception.WrongMenuId;
-import likelion.festival.repository.BoothRepository;
+import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

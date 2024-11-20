@@ -1,7 +1,7 @@
 package likelion.festival.dto;
 
 
-import likelion.festival.entity.Booth;
+import likelion.festival.booth.domain.Booth;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

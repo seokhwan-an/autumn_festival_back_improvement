@@ -1,6 +1,7 @@
 package likelion.festival.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import likelion.festival.booth.domain.Booth;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

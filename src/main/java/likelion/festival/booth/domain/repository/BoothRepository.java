@@ -1,9 +1,8 @@
-package likelion.festival.repository;
+package likelion.festival.booth.domain.repository;
 
 
-import likelion.festival.entity.Booth;
+import likelion.festival.booth.domain.Booth;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

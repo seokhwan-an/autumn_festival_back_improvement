@@ -1,7 +1,7 @@
 package likelion.festival.service;
 
 import likelion.festival.dto.ImageDto;
-import likelion.festival.entity.Booth;
+import likelion.festival.booth.domain.Booth;
 import likelion.festival.entity.Notification;
 import likelion.festival.repository.ImageRepository;
 import likelion.festival.util.MD5Generator;

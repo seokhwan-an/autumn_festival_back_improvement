@@ -1,11 +1,12 @@
-package likelion.festival.service;
+package likelion.festival.booth.application;
 
-import likelion.festival.dto.BoothDayLocationDto;
-import likelion.festival.dto.BoothDto;
-import likelion.festival.dto.BoothFilterDto;
-import likelion.festival.entity.Booth;
+import likelion.festival.booth.application.dto.BoothDayLocationDto;
+import likelion.festival.booth.application.dto.BoothDto;
+import likelion.festival.booth.application.dto.BoothFilterDto;
+import likelion.festival.booth.domain.Booth;
 import likelion.festival.exception.WrongBoothId;
-import likelion.festival.repository.BoothRepository;
+import likelion.festival.booth.domain.repository.BoothRepository;
+import likelion.festival.service.LikesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

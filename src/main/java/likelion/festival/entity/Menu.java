@@ -2,6 +2,7 @@ package likelion.festival.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
+import likelion.festival.booth.domain.Booth;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
