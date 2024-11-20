@@ -1,8 +1,8 @@
-package likelion.festival.dto;
+package likelion.festival.notification.application.dto;
 
 import com.sun.istack.NotNull;
 import likelion.festival.entity.Image;
-import likelion.festival.entity.NotificationType;
+import likelion.festival.notification.domain.NotificationType;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;

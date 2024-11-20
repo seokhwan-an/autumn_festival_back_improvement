@@ -1,4 +1,4 @@
-package likelion.festival.entity;
+package likelion.festival.notification.domain;
 
 public enum NotificationType {
     전체,주요,축제,이벤트,기타

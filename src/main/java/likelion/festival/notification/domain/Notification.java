@@ -1,7 +1,9 @@
-package likelion.festival.entity;
+package likelion.festival.notification.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import likelion.festival.entity.BaseEntity;
+import likelion.festival.entity.Image;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Data
-public class Notification extends BaseEntity{
+public class Notification extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

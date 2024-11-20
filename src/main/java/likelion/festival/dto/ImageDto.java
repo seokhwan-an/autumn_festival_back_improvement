@@ -3,7 +3,7 @@ package likelion.festival.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.entity.Image;
-import likelion.festival.entity.Notification;
+import likelion.festival.notification.domain.Notification;
 import lombok.*;
 
 @Getter

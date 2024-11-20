@@ -1,16 +1,15 @@
-package likelion.festival.service;
+package likelion.festival.notification.application;
 
-import likelion.festival.dto.NotificationDto;
-import likelion.festival.entity.Notification;
-import likelion.festival.entity.NotificationType;
+import likelion.festival.notification.application.dto.NotificationDto;
+import likelion.festival.notification.domain.Notification;
+import likelion.festival.notification.domain.NotificationType;
 import likelion.festival.exception.WrongNotificationId;
-import likelion.festival.repository.NotificationRepository;
+import likelion.festival.notification.domain.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

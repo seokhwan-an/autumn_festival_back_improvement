@@ -1,10 +1,10 @@
-package likelion.festival.controller;
+package likelion.festival.notification.ui;
 
-import likelion.festival.dto.NotificationDto;
-import likelion.festival.entity.Notification;
-import likelion.festival.entity.NotificationType;
+import likelion.festival.notification.application.dto.NotificationDto;
+import likelion.festival.notification.domain.Notification;
+import likelion.festival.notification.domain.NotificationType;
 import likelion.festival.service.ImageService;
-import likelion.festival.service.NotificationService;
+import likelion.festival.notification.application.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
