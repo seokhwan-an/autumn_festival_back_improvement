@@ -1,7 +1,7 @@
-package likelion.festival.controller;
+package likelion.festival.comment.ui;
 
-import likelion.festival.dto.*;
-import likelion.festival.service.CommentService;
+import likelion.festival.comment.appliction.dto.CommentPasswordDto;
+import likelion.festival.comment.appliction.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     public String deleteComment(@PathVariable Long id, @RequestBody
-            CommentPasswordDto password){
+    CommentPasswordDto password){
         return commentService.delete(id, password);
     }
 

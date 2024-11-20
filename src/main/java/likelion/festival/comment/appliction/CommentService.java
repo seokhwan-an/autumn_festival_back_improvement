@@ -1,16 +1,16 @@
-package likelion.festival.service;
+package likelion.festival.comment.appliction;
 
 
-import likelion.festival.dto.CommentPasswordDto;
-import likelion.festival.dto.CommentRequestDto;
-import likelion.festival.dto.CommentResponseDto;
+import likelion.festival.comment.appliction.dto.CommentPasswordDto;
+import likelion.festival.comment.appliction.dto.CommentRequestDto;
+import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.entity.Comment;
+import likelion.festival.comment.domain.Comment;
 import likelion.festival.exception.WrongBoothId;
 import likelion.festival.exception.WrongCommentId;
 import likelion.festival.exception.WrongPassword;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.repository.CommentRepository;
+import likelion.festival.comment.domain.repository.CommentRepository;
 import likelion.festival.security.Encrypt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

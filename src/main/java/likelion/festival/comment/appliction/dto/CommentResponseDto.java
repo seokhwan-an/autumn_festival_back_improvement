@@ -1,4 +1,4 @@
-package likelion.festival.dto;
+package likelion.festival.comment.appliction.dto;
 
 import lombok.*;
 
