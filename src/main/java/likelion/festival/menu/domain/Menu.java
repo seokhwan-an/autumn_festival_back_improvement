@@ -1,0 +1,34 @@
+package likelion.festival.menu.domain;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sun.istack.NotNull;
+import likelion.festival.booth.domain.Booth;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Entity
+public class Menu {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private Long id;
+
+    @NotNull
+    private String name;
+
+    @NotNull
+    private Long price;
+
+    @NotNull
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booth_id")
+    private Booth booth;
+}
