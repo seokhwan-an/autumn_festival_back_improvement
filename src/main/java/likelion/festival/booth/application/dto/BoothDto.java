@@ -2,7 +2,7 @@ package likelion.festival.booth.application.dto;
 
 import com.sun.istack.NotNull;
 import likelion.festival.booth.domain.BoothType;
-import likelion.festival.entity.Image;
+import likelion.festival.global.image.domain.Image;
 import lombok.Builder;
 import lombok.Data;
 

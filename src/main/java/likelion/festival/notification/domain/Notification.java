@@ -2,8 +2,8 @@ package likelion.festival.notification.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import likelion.festival.entity.BaseEntity;
-import likelion.festival.entity.Image;
+import likelion.festival.global.entity.BaseEntity;
+import likelion.festival.global.image.domain.Image;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

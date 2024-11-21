@@ -1,4 +1,4 @@
-package likelion.festival.security;
+package likelion.festival.global.security;
 
 import org.springframework.stereotype.Component;
 

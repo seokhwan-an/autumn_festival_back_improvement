@@ -1,10 +1,10 @@
-package likelion.festival.service;
+package likelion.festival.global.image.application;
 
-import likelion.festival.dto.ImageDto;
+import likelion.festival.global.image.application.dto.ImageDto;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.notification.domain.Notification;
-import likelion.festival.repository.ImageRepository;
-import likelion.festival.util.MD5Generator;
+import likelion.festival.global.image.domain.repository.ImageRepository;
+import likelion.festival.global.security.MD5Generator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

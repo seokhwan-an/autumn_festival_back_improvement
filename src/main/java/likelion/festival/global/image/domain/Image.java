@@ -1,4 +1,4 @@
-package likelion.festival.entity;
+package likelion.festival.global.image.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import likelion.festival.booth.domain.Booth;

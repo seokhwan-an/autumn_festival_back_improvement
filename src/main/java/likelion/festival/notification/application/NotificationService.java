@@ -3,7 +3,7 @@ package likelion.festival.notification.application;
 import likelion.festival.notification.application.dto.NotificationDto;
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
-import likelion.festival.exception.WrongNotificationId;
+import likelion.festival.global.exception.WrongNotificationId;
 import likelion.festival.notification.domain.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;

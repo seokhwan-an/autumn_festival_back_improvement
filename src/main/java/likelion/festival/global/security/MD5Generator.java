@@ -1,4 +1,4 @@
-package likelion.festival.util;
+package likelion.festival.global.security;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

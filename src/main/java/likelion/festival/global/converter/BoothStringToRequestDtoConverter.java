@@ -1,4 +1,4 @@
-package likelion.festival.converter;
+package likelion.festival.global.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

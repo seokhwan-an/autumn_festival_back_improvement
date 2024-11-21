@@ -1,8 +1,8 @@
-package likelion.festival.dto;
+package likelion.festival.global.image.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.entity.Image;
+import likelion.festival.global.image.domain.Image;
 import likelion.festival.notification.domain.Notification;
 import lombok.*;
 

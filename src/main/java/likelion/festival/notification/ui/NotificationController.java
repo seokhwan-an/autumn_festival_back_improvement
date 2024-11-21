@@ -3,7 +3,7 @@ package likelion.festival.notification.ui;
 import likelion.festival.notification.application.dto.NotificationDto;
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
-import likelion.festival.service.ImageService;
+import likelion.festival.global.image.application.ImageService;
 import likelion.festival.notification.application.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

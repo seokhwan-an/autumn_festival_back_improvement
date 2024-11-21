@@ -4,7 +4,7 @@ import likelion.festival.booth.application.dto.BoothDayLocationDto;
 import likelion.festival.booth.application.dto.BoothDto;
 import likelion.festival.booth.application.dto.BoothFilterDto;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.exception.WrongBoothId;
+import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.like.application.LikesService;
 import lombok.RequiredArgsConstructor;

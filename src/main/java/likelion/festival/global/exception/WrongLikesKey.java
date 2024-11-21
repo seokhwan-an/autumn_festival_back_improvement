@@ -1,4 +1,4 @@
-package likelion.festival.exception;
+package likelion.festival.global.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

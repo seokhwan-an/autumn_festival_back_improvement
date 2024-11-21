@@ -3,7 +3,7 @@ package likelion.festival.comment.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.entity.BaseEntity;
+import likelion.festival.global.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

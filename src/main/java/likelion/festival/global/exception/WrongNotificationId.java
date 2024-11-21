@@ -1,4 +1,4 @@
-package likelion.festival.exception;
+package likelion.festival.global.exception;
 
 import javax.persistence.EntityNotFoundException;
 

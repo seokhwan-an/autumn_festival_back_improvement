@@ -1,7 +1,7 @@
 package likelion.festival.notification.application.dto;
 
 import com.sun.istack.NotNull;
-import likelion.festival.entity.Image;
+import likelion.festival.global.image.domain.Image;
 import likelion.festival.notification.domain.NotificationType;
 import lombok.Builder;
 import lombok.Data;

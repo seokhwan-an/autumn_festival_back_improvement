@@ -1,6 +1,6 @@
-package likelion.festival.exception.handler.advice;
+package likelion.festival.global.exception.handler.advice;
 
-import likelion.festival.exception.ExceptionCode;
+import likelion.festival.global.exception.ExceptionCode;
 import lombok.Data;
 
 @Data

@@ -1,5 +1,6 @@
-package likelion.festival.exception.handler.advice;
-import likelion.festival.exception.*;
+package likelion.festival.global.exception.handler.advice;
+
+import likelion.festival.global.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,7 +30,8 @@ public class ExControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(WrongLikesKey.class)
     public ErrorResult wrongLikeKey(WrongLikesKey e) {
-        return new ErrorResult(ExceptionCode.WRONG_LIKE_KEY);}
+        return new ErrorResult(ExceptionCode.WRONG_LIKE_KEY);
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(WrongNotificationId.class)

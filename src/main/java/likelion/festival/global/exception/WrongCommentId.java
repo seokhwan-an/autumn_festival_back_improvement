@@ -1,4 +1,4 @@
-package likelion.festival.exception;
+package likelion.festival.global.exception;
 
 public class WrongCommentId extends IllegalArgumentException{
 }

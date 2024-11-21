@@ -1,4 +1,4 @@
-package likelion.festival.entity;
+package likelion.festival.global.entity;
 
 import lombok.Getter;
 import lombok.Setter;

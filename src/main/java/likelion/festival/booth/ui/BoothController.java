@@ -11,7 +11,7 @@ import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.menu.application.dto.MenuRequestDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import likelion.festival.comment.appliction.CommentService;
-import likelion.festival.service.ImageService;
+import likelion.festival.global.image.application.ImageService;
 import likelion.festival.like.application.LikesService;
 import likelion.festival.menu.application.MenuService;
 import lombok.RequiredArgsConstructor;
