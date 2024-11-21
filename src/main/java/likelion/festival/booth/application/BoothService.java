@@ -6,7 +6,7 @@ import likelion.festival.booth.application.dto.BoothFilterDto;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.exception.WrongBoothId;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.service.LikesService;
+import likelion.festival.like.application.LikesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

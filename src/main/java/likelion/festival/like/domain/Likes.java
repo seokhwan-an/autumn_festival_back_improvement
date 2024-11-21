@@ -1,4 +1,4 @@
-package likelion.festival.entity;
+package likelion.festival.like.domain;
 
 import com.sun.istack.NotNull;
 import likelion.festival.booth.domain.Booth;

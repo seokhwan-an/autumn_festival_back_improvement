@@ -1,6 +1,6 @@
-package likelion.festival.repository;
+package likelion.festival.like.domain.repository;
 
-import likelion.festival.entity.Likes;
+import likelion.festival.like.domain.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
