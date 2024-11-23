@@ -105,4 +105,25 @@ public class Booth {
             startAt,
             endAt);
     }
+
+    public void update(String title,
+                       String content,
+                       String notice,
+                       String boothType,
+                       String introduction,
+                       String location,
+                       Integer boothNo,
+                       String startAt,
+                       String endAt
+    ) {
+        this.title = title;
+        this.content = content;
+        this.notice = notice;
+        this.boothType = BoothType.valueOf(boothType);
+        this.introduction = introduction;
+        this.location = location;
+        this.boothNo = boothNo;
+        this.startAt = startAt;
+        this.endAt = endAt;
+    }
 }

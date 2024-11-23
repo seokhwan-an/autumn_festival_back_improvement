@@ -1,9 +1,6 @@
 package likelion.festival.booth.application;
 
-import likelion.festival.booth.application.dto.BoothCreate;
-import likelion.festival.booth.application.dto.BoothDayLocationDto;
-import likelion.festival.booth.application.dto.BoothDto;
-import likelion.festival.booth.application.dto.BoothFilterDto;
+import likelion.festival.booth.application.dto.*;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.booth.domain.repository.BoothRepository;
@@ -105,16 +102,21 @@ public class BoothService {
 
     //수정 ok
     @Transactional
-    public Booth update(Long id, BoothDto boothDto) {
-        Optional<Booth> booth = boothRepository.findById(id);
-        if (booth.isEmpty()) {
-            throw new WrongBoothId();
-        }
-        long boothId = booth.get().getId();
-        boothDto.setId(boothId);
-        Booth updateBooth = boothDtoToEntity(boothDto);
-        boothRepository.save(updateBooth);
-        return updateBooth;
+    public Booth update(Long id, BoothUpdate request) {
+        Booth booth = boothRepository.findById(id)
+            .orElseThrow(WrongBoothId::new);
+
+        booth.update(request.getTitle(),
+            request.getContent(),
+            request.getNotice(),
+            request.getBoothType(),
+            request.getIntroduction(),
+            request.getLocation(),
+            request.getBoothNo(),
+            request.getStartAt(),
+            request.getEndAt()
+        );
+        return booth;
     }
 
     //삭제

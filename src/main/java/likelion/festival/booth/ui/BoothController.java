@@ -1,9 +1,6 @@
 package likelion.festival.booth.ui;
 
-import likelion.festival.booth.application.dto.BoothCreate;
-import likelion.festival.booth.application.dto.BoothDayLocationDto;
-import likelion.festival.booth.application.dto.BoothDto;
-import likelion.festival.booth.application.dto.BoothFilterDto;
+import likelion.festival.booth.application.dto.*;
 import likelion.festival.comment.appliction.dto.CommentRequestDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.booth.domain.Booth;
@@ -69,7 +66,7 @@ public class BoothController {
     }
 
     @PutMapping("{id}")
-    public Booth boothUpdate(@PathVariable Long id, @RequestBody BoothDto boothDto) {
+    public Booth boothUpdate(@PathVariable Long id, @RequestBody BoothUpdate boothDto) {
         return boothService.update(id, boothDto);
     }
 
