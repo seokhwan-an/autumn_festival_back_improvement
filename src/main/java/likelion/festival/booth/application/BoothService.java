@@ -148,7 +148,7 @@ public class BoothService {
                 .introduction(booth.getIntroduction())
                 .active(checkActive(booth))
                 .likeCnt((long) booth.getLikes().size())
-                .images(booth.getImages())
+//                .images(booth.getImages())
                 .build();
     }
 
@@ -162,7 +162,7 @@ public class BoothService {
                 .boothNo(boothDto.getBoothNo())
                 .notice(boothDto.getNotice())
                 .content(boothDto.getContent())
-                .images(boothDto.getImages())
+//                .images(boothDto.getImages())
                 .startAt(boothDto.getStartAt())
                 .endAt(boothDto.getEndAt())
                 .build();
@@ -181,7 +181,7 @@ public class BoothService {
                 .startAt(booth.getStartAt())
                 .endAt(booth.getEndAt())
                 .likeCnt(booth.getLikes().size())
-                .images(booth.getImages())
+//                .images(booth.getImages())
                 .build();
     }
 
@@ -194,7 +194,7 @@ public class BoothService {
                 .boothNo(booth.getBoothNo())
                 .introduction(booth.getIntroduction())
                 .likeCnt((long) booth.getLikes().size())
-                .images(booth.getImages())
+//                .images(booth.getImages())
                 .build();
     }
 

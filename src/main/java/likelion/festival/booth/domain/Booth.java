@@ -1,10 +1,6 @@
 package likelion.festival.booth.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sun.istack.NotNull;
 import likelion.festival.comment.domain.Comment;
-import likelion.festival.global.image.domain.Image;
 import likelion.festival.like.domain.Likes;
 import likelion.festival.menu.domain.Menu;
 import lombok.AllArgsConstructor;
@@ -27,45 +23,42 @@ public class Booth {
     @Id
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String title;
 
-    @NotNull
+    @Column(nullable = false)
     private String content;
 
     private String notice;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private BoothType boothType;
 
-    @NotNull
     private String introduction;
 
-    @NotNull
+    @Column(nullable = false)
     private String location;
 
+    @Column(nullable = false)
     private Integer boothNo;
 
-    @NotNull
+    @Column(nullable = false)
     private String startAt;
 
-    @NotNull
+    @Column(nullable = false)
     private String endAt;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "booth")
+    @OneToMany(mappedBy = "booth", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Menu> menus = new ArrayList<>();
 
-    @OneToMany(mappedBy = "booth")
+    @OneToMany(mappedBy = "booth", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Likes> likes = new ArrayList<>();
 
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "booth")
+    @OneToMany(mappedBy = "booth", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "booth",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Image> images = new ArrayList<>();
+    // TODO : 이미지는 추후에 처리하기
+//    @OneToMany(mappedBy = "booth",cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<Image> images = new ArrayList<>();
 }
