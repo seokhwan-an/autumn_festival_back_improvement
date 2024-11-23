@@ -77,18 +77,7 @@ public class BoothService {
     public BoothDto read(Long id) {
         Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
-
-        List<Integer> days = new ArrayList<>();
-        String startDate = booth.getStartAt();
-        String endDate = booth.getEndAt();
-        int start = Integer.parseInt(startDate.substring(startDate.length() - 2));
-        int end = Integer.parseInt(endDate.substring(startDate.length() - 2));
-        int minus = end - start;
-        days.add(start);
-        for (int i = 1; i <= minus; i++) {
-            days.add(start + i);
-        }
-        return BoothDto.of(booth, days);
+        return BoothDto.of(booth);
     }
 
     //수정 ok

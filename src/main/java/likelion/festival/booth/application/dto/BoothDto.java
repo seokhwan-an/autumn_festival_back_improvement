@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -41,7 +42,8 @@ public class BoothDto {
 
 //    private List<Image> images;
 
-    public static BoothDto of(Booth booth, List<Integer> days) {
+    public static BoothDto of(Booth booth) {
+
         return new BoothDto(booth.getId(),
             booth.getTitle(),
             booth.getIntroduction(),
@@ -52,12 +54,22 @@ public class BoothDto {
             booth.getContent(),
             booth.getStartAt(),
             booth.getEndAt(),
-            days,
+            getActiveDays(booth.getStartAt(), booth.getEndAt()),
             booth.getLikes().size(),
             false);
     }
 
     public void updateIsLike(boolean isLike) {
         this.isLike = isLike;
+    }
+
+    private static List<Integer> getActiveDays(String startAt, String endAt) {
+        List<Integer> days = new ArrayList<>();
+        int start = Integer.parseInt(startAt.substring(startAt.length() - 2));
+        int end = Integer.parseInt(endAt.substring(endAt.length() - 2));
+        for (int i = start; i <= end; i++) {
+            days.add(start + i);
+        }
+        return days;
     }
 }
