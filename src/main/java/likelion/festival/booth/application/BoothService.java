@@ -1,5 +1,6 @@
 package likelion.festival.booth.application;
 
+import likelion.festival.booth.application.dto.BoothCreate;
 import likelion.festival.booth.application.dto.BoothDayLocationDto;
 import likelion.festival.booth.application.dto.BoothDto;
 import likelion.festival.booth.application.dto.BoothFilterDto;
@@ -64,8 +65,18 @@ public class BoothService {
 
     //생성 ok
     @Transactional
-    public Booth create(BoothDto boothDto) {
-        Booth booth = boothDtoToEntity(boothDto);
+    public Booth create(BoothCreate request) {
+        Booth booth = Booth.forSave(
+            request.getTitle(),
+            request.getContent(),
+            request.getNotice(),
+            request.getBoothType(),
+            request.getIntroduction(),
+            request.getLocation(),
+            request.getBoothNo(),
+            request.getStartAt(),
+            request.getEndAt()
+        );
         return boothRepository.save(booth);
     }
 

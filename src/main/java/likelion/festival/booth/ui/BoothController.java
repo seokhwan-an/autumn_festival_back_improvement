@@ -1,5 +1,6 @@
 package likelion.festival.booth.ui;
 
+import likelion.festival.booth.application.dto.BoothCreate;
 import likelion.festival.booth.application.dto.BoothDayLocationDto;
 import likelion.festival.booth.application.dto.BoothDto;
 import likelion.festival.booth.application.dto.BoothFilterDto;
@@ -53,7 +54,7 @@ public class BoothController {
     }
 
     @PostMapping()
-    public Integer boothCreate(@RequestPart(value = "imgList",required = false) List<MultipartFile> imgList, @RequestParam(value = "boothDto") BoothDto boothDto) {
+    public Integer boothCreate(@RequestPart(value = "imgList",required = false) List<MultipartFile> imgList, @RequestParam(value = "boothDto") BoothCreate boothDto) {
         Booth booth = boothService.create(boothDto);
         if (imgList==null){
             return HttpStatus.OK.value();

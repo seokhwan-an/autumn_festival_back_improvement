@@ -61,4 +61,48 @@ public class Booth {
 //    @OneToMany(mappedBy = "booth",cascade = CascadeType.ALL)
 //    @JsonIgnore
 //    private List<Image> images = new ArrayList<>();
+
+    public Booth(Long id,
+                 String title,
+                 String content,
+                 String notice,
+                 BoothType boothType,
+                 String introduction,
+                 String location,
+                 Integer boothNo,
+                 String startAt,
+                 String endAt) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.notice = notice;
+        this.boothType = boothType;
+        this.introduction = introduction;
+        this.location = location;
+        this.boothNo = boothNo;
+        this.startAt = startAt;
+        this.endAt = endAt;
+    }
+
+    public static Booth forSave(String title,
+                                String content,
+                                String notice,
+                                String boothType,
+                                String introduction,
+                                String location,
+                                Integer boothNo,
+                                String startAt,
+                                String endAt
+    ) {
+        return new Booth(null,
+            title,
+            content,
+            notice,
+            BoothType.valueOf(boothType),
+            introduction,
+            location,
+            boothNo,
+            startAt,
+            endAt);
+    }
 }
