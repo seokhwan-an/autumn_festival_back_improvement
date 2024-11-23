@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.*;
@@ -79,15 +78,13 @@ public class BoothService {
 
     //읽기 ok
     public BoothDto read(HttpServletRequest request, Long id) {
-        Optional<Booth> booth = boothRepository.findById(id);
-        if (booth.isEmpty()) {
-            throw new WrongBoothId();
-        }
-        BoothDto boothDto = entityToBoothDto(booth.get());
+        Booth booth = boothRepository.findById(id)
+            .orElseThrow(WrongBoothId::new);
+
 
         List<Integer> days = new ArrayList<>();
-        String startDate = boothDto.getStartAt();
-        String endDate = boothDto.getEndAt();
+        String startDate = booth.getStartAt();
+        String endDate = booth.getEndAt();
         int start = Integer.parseInt(startDate.substring(startDate.length()-2));
         int end = Integer.parseInt(endDate.substring(startDate.length()-2));
         int minus = end - start;
@@ -95,9 +92,7 @@ public class BoothService {
         for(int i = 1; i <= minus; i++){
             days.add(start + i);
         }
-        boothDto.setDays(days);
-        boothDto.setIsLike(checkIsLike(request, id));
-        return boothDto;
+        return BoothDto.of(booth, days);
     }
 
     //수정 ok
@@ -140,44 +135,6 @@ public class BoothService {
 
     public LocalDate StringToDate(String date) {
         return LocalDate.parse(date);
-    }
-
-    public Booth boothDtoToEntity(BoothDto boothDto) {
-        return Booth.builder()
-                .id(boothDto.getId())
-                .title(boothDto.getTitle())
-                .introduction(boothDto.getIntroduction())
-                .boothType(boothDto.getBoothType())
-                .location(boothDto.getLocation())
-                .boothNo(boothDto.getBoothNo())
-                .notice(boothDto.getNotice())
-                .content(boothDto.getContent())
-//                .images(boothDto.getImages())
-                .startAt(boothDto.getStartAt())
-                .endAt(boothDto.getEndAt())
-                .build();
-    }
-
-    public BoothDto entityToBoothDto(Booth booth) {
-        return BoothDto.builder()
-                .id(booth.getId())
-                .title(booth.getTitle())
-                .introduction(booth.getIntroduction())
-                .boothType(booth.getBoothType())
-                .location(booth.getLocation())
-                .boothNo(booth.getBoothNo())
-                .notice(booth.getNotice())
-                .content(booth.getContent())
-                .startAt(booth.getStartAt())
-                .endAt(booth.getEndAt())
-                .likeCnt(booth.getLikes().size())
-//                .images(booth.getImages())
-                .build();
-    }
-
-    private Boolean checkIsLike(HttpServletRequest request, Long id){
-        Optional<Cookie> boothCookie = likesService.findBoothCookie(request, id);
-        return boothCookie.isPresent();
     }
 
     private Boolean checkActive(Booth booth){

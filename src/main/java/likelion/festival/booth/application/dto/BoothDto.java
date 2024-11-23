@@ -1,40 +1,36 @@
 package likelion.festival.booth.application.dto;
 
-import com.sun.istack.NotNull;
+import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.BoothType;
-import likelion.festival.global.image.domain.Image;
-import lombok.Builder;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class BoothDto {
+
     private Long id;
 
-    @NotNull
     private String title;
 
-    @NotNull
     private String introduction;
 
-    @NotNull
     private BoothType boothType;
 
-    @NotNull
     private String location;
 
     private Integer boothNo;
 
     private String notice;
 
-    @NotNull
     private String content;
 
-    @NotNull
     private String startAt;
 
-    @NotNull
     private String endAt;
 
     private List<Integer> days;
@@ -43,25 +39,21 @@ public class BoothDto {
 
     private Boolean isLike;
 
-    private List<Image> images;
+//    private List<Image> images;
 
-    @Builder
-    public BoothDto(Long id, String title, String introduction, BoothType boothType,
-                    String location, Integer boothNo, String notice, String content,
-                    String startAt, List<Integer> days,String endAt, List<Image> images,
-                    long likeCnt) {
-        this.id = id;
-        this.title = title;
-        this.introduction = introduction;
-        this.boothType = boothType;
-        this.location = location;
-        this.boothNo = boothNo;
-        this.notice = notice;
-        this.content = content;
-        this.startAt = startAt;
-        this.endAt = endAt;
-        this.days = days;
-        this.images =images;
-        this.likeCnt = likeCnt;
+    public static BoothDto of(Booth booth, List<Integer> days) {
+        return new BoothDto(booth.getId(),
+            booth.getTitle(),
+            booth.getIntroduction(),
+            booth.getBoothType(),
+            booth.getLocation(),
+            booth.getBoothNo(),
+            booth.getNotice(),
+            booth.getContent(),
+            booth.getStartAt(),
+            booth.getEndAt(),
+            days,
+            booth.getLikes().size(),
+            false);
     }
 }
