@@ -58,11 +58,7 @@ public class BoothService {
                         && StringToDate(e.getEndAt()).isAfter(today)
                         || StringToDate(e.getStartAt()).isEqual(today)
                         || StringToDate(e.getEndAt()).isEqual(today))
-                .map(e -> {
-                    BoothDayLocationDto boothDayLocationDto = entityToDayLocationDto(e);
-                    boothDayLocationDto.setIsLike(checkIsLike(request, e.getId()));
-                    return boothDayLocationDto;
-                })
+                .map(BoothDayLocationDto::of)
                 .collect(Collectors.toList());
     }
 
@@ -162,19 +158,6 @@ public class BoothService {
                 .startAt(booth.getStartAt())
                 .endAt(booth.getEndAt())
                 .likeCnt(booth.getLikes().size())
-//                .images(booth.getImages())
-                .build();
-    }
-
-    public BoothDayLocationDto entityToDayLocationDto(Booth booth){
-        return BoothDayLocationDto.builder()
-                .id(booth.getId())
-                .boothType(booth.getBoothType())
-                .title(booth.getTitle())
-                .location(booth.getLocation())
-                .boothNo(booth.getBoothNo())
-                .introduction(booth.getIntroduction())
-                .likeCnt((long) booth.getLikes().size())
 //                .images(booth.getImages())
                 .build();
     }
