@@ -1,38 +1,47 @@
 package likelion.festival.booth.application.dto;
 
 import com.sun.istack.NotNull;
+import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.BoothType;
 import likelion.festival.global.image.domain.Image;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Builder
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class BoothFilterDto {
 
     private Long id;
 
-    @NotNull
     private BoothType boothType;
 
-    @NotNull
     private String title;
 
-    @NotNull
     private String introduction;
 
-    @NotNull
     private String location;
 
     private Integer boothNo;
 
-    private Boolean active;
+    private boolean active;
 
-    private Long likeCnt;
+    private int likeCnt;
 
-    private Boolean isLike;
+    private boolean isLike;
 
-    private List<Image> images;
+//    private List<Image> images;
+
+    public static BoothFilterDto of(Booth booth, boolean isActive){
+        return new BoothFilterDto(booth.getId(),
+            booth.getBoothType(),
+            booth.getTitle(),
+            booth.getIntroduction(),
+            booth.getLocation(),
+            booth.getBoothNo(),
+            isActive,
+            booth.getLikes().size(),
+            false);
+    }
 }

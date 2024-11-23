@@ -33,21 +33,16 @@ public class BoothService {
         if(booths.isEmpty()){
             booths = boothRepository.findByMenus_NameContaining(search);
         }
-        return booths.stream().map(e -> {
-                    BoothFilterDto boothFilterDto = entityToFilterDto(e);
-                    boothFilterDto.setIsLike(checkIsLike(request,e.getId()));
-                    return boothFilterDto;
-                })
-                .collect(Collectors.toList());
+        return booths.stream()
+            .map(b -> BoothFilterDto.of(b, checkActive(b)))
+            .collect(Collectors.toList());
     }
 
     public List<BoothFilterDto> boothTopFive(HttpServletRequest request) {
         List<Booth> booths = boothRepository.findAll();
         return booths.stream()
-                .map(e -> {BoothFilterDto boothFilterDto = entityToFilterDto(e);
-                    boothFilterDto.setIsLike(checkIsLike(request,e.getId()));
-                    return boothFilterDto;})
-                .filter(boothFilterDto -> boothFilterDto.getActive().equals(true))
+                .map(b -> BoothFilterDto.of(b, checkActive(b)))
+                .filter(BoothFilterDto::isActive)
                 .sorted(Comparator.comparing(BoothFilterDto::getLikeCnt).reversed())
                 .limit(5)
                 .collect(Collectors.toList());
@@ -136,20 +131,6 @@ public class BoothService {
 
     public LocalDate StringToDate(String date) {
         return LocalDate.parse(date);
-    }
-
-    public BoothFilterDto entityToFilterDto(Booth booth) {
-        return BoothFilterDto.builder()
-                .id(booth.getId())
-                .boothType(booth.getBoothType())
-                .title(booth.getTitle())
-                .location(booth.getLocation())
-                .boothNo(booth.getBoothNo())
-                .introduction(booth.getIntroduction())
-                .active(checkActive(booth))
-                .likeCnt((long) booth.getLikes().size())
-//                .images(booth.getImages())
-                .build();
     }
 
     public Booth boothDtoToEntity(BoothDto boothDto) {
