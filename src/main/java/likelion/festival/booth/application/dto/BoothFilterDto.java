@@ -1,12 +1,10 @@
 package likelion.festival.booth.application.dto;
 
-import com.sun.istack.NotNull;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.BoothType;
-import likelion.festival.global.image.domain.Image;
-import lombok.*;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +31,7 @@ public class BoothFilterDto {
 
 //    private List<Image> images;
 
-    public static BoothFilterDto of(Booth booth, boolean isActive){
+    public static BoothFilterDto of(Booth booth, boolean isActive) {
         return new BoothFilterDto(booth.getId(),
             booth.getBoothType(),
             booth.getTitle(),

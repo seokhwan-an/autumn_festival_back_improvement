@@ -1,12 +1,10 @@
 package likelion.festival.booth.application.dto;
 
-import com.sun.istack.NotNull;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.BoothType;
-import likelion.festival.global.image.domain.Image;
-import lombok.*;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,7 +29,7 @@ public class BoothDayLocationDto {
 
 //    private List<Image> images;
 
-    public static BoothDayLocationDto of(Booth booth){
+    public static BoothDayLocationDto of(Booth booth) {
         return new BoothDayLocationDto(booth.getId(),
             booth.getBoothType(),
             booth.getTitle(),

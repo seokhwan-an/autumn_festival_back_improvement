@@ -2,8 +2,8 @@ package likelion.festival.booth.application;
 
 import likelion.festival.booth.application.dto.*;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.booth.domain.repository.BoothRepository;
+import likelion.festival.global.exception.WrongBoothId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class BoothService {
         if (booths.isEmpty()) {
             booths = boothRepository.findByLocation(search);
         }
-        if(booths.isEmpty()){
+        if (booths.isEmpty()) {
             booths = boothRepository.findByMenus_NameContaining(search);
         }
         return booths.stream()
@@ -35,11 +35,11 @@ public class BoothService {
     public List<BoothFilterDto> boothTopFive() {
         List<Booth> booths = boothRepository.findAll();
         return booths.stream()
-                .map(b -> BoothFilterDto.of(b, checkActive(b)))
-                .filter(BoothFilterDto::isActive)
-                .sorted(Comparator.comparing(BoothFilterDto::getLikeCnt).reversed())
-                .limit(5)
-                .collect(Collectors.toList());
+            .map(b -> BoothFilterDto.of(b, checkActive(b)))
+            .filter(BoothFilterDto::isActive)
+            .sorted(Comparator.comparing(BoothFilterDto::getLikeCnt).reversed())
+            .limit(5)
+            .collect(Collectors.toList());
     }
 
     //날짜와 장소로 필터링 하는 기능 ok
@@ -48,12 +48,12 @@ public class BoothService {
         LocalDate today = StringToDate(date.get(day));
         List<Booth> booths = boothRepository.findByLocation(location);
         return booths.stream()
-                .filter(e -> StringToDate(e.getStartAt()).isBefore(today)
-                        && StringToDate(e.getEndAt()).isAfter(today)
-                        || StringToDate(e.getStartAt()).isEqual(today)
-                        || StringToDate(e.getEndAt()).isEqual(today))
-                .map(BoothDayLocationDto::of)
-                .collect(Collectors.toList());
+            .filter(e -> StringToDate(e.getStartAt()).isBefore(today)
+                && StringToDate(e.getEndAt()).isAfter(today)
+                || StringToDate(e.getStartAt()).isEqual(today)
+                || StringToDate(e.getEndAt()).isEqual(today))
+            .map(BoothDayLocationDto::of)
+            .collect(Collectors.toList());
     }
 
     //생성 ok
@@ -78,15 +78,14 @@ public class BoothService {
         Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
 
-
         List<Integer> days = new ArrayList<>();
         String startDate = booth.getStartAt();
         String endDate = booth.getEndAt();
-        int start = Integer.parseInt(startDate.substring(startDate.length()-2));
-        int end = Integer.parseInt(endDate.substring(startDate.length()-2));
+        int start = Integer.parseInt(startDate.substring(startDate.length() - 2));
+        int end = Integer.parseInt(endDate.substring(startDate.length() - 2));
         int minus = end - start;
         days.add(start);
-        for(int i = 1; i <= minus; i++){
+        for (int i = 1; i <= minus; i++) {
             days.add(start + i);
         }
         return BoothDto.of(booth, days);
@@ -134,7 +133,7 @@ public class BoothService {
         return LocalDate.parse(date);
     }
 
-    private Boolean checkActive(Booth booth){
+    private Boolean checkActive(Booth booth) {
         LocalDate start = StringToDate(booth.getStartAt());
         LocalDate end = StringToDate(booth.getEndAt());
         LocalDate today = LocalDate.now();
