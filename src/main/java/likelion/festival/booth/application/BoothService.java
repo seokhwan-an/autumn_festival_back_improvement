@@ -4,12 +4,10 @@ import likelion.festival.booth.application.dto.*;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.like.application.LikesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,9 +18,8 @@ import java.util.stream.Collectors;
 public class BoothService {
 
     private final BoothRepository boothRepository;
-    private final LikesService likesService;
 
-    public List<BoothFilterDto> boothFilterAndSearch(HttpServletRequest request, String search) {
+    public List<BoothFilterDto> boothFilterAndSearch(String search) {
         List<Booth> booths = boothRepository.findByTitleContaining(search);
         if (booths.isEmpty()) {
             booths = boothRepository.findByLocation(search);
@@ -35,7 +32,7 @@ public class BoothService {
             .collect(Collectors.toList());
     }
 
-    public List<BoothFilterDto> boothTopFive(HttpServletRequest request) {
+    public List<BoothFilterDto> boothTopFive() {
         List<Booth> booths = boothRepository.findAll();
         return booths.stream()
                 .map(b -> BoothFilterDto.of(b, checkActive(b)))
@@ -46,7 +43,7 @@ public class BoothService {
     }
 
     //날짜와 장소로 필터링 하는 기능 ok
-    public List<BoothDayLocationDto> boothDayLocation(HttpServletRequest request, String day, String location) {
+    public List<BoothDayLocationDto> boothDayLocation(String day, String location) {
         HashMap<String, String> date = festivalDate();
         LocalDate today = StringToDate(date.get(day));
         List<Booth> booths = boothRepository.findByLocation(location);
@@ -77,7 +74,7 @@ public class BoothService {
     }
 
     //읽기 ok
-    public BoothDto read(HttpServletRequest request, Long id) {
+    public BoothDto read(Long id) {
         Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
 

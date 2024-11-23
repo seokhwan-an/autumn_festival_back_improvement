@@ -44,4 +44,8 @@ public class BoothFilterDto {
             booth.getLikes().size(),
             false);
     }
+
+    public void updateIsLike(boolean isLike) {
+        this.isLike = isLike;
+    }
 }
