@@ -1,25 +1,37 @@
 package likelion.festival.booth.ui;
 
 import likelion.festival.booth.application.BoothService;
-import likelion.festival.booth.application.dto.*;
-import likelion.festival.booth.domain.Booth;
+import likelion.festival.booth.application.dto.BoothCreate;
+import likelion.festival.booth.application.dto.BoothDayLocationDto;
+import likelion.festival.booth.application.dto.BoothDto;
+import likelion.festival.booth.application.dto.BoothFilterDto;
+import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.comment.appliction.CommentService;
 import likelion.festival.comment.appliction.dto.CommentRequestDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
-import likelion.festival.global.image.application.ImageService;
 import likelion.festival.like.application.LikesService;
 import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.menu.application.MenuService;
 import likelion.festival.menu.application.dto.MenuRequestDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,57 +44,56 @@ public class BoothController {
     private final LikesService likesService;
     private final CommentService commentService;
     private final MenuService menuService;
-    private final ImageService imageService;
 
     @GetMapping(params = {"filter"})
-    public List<BoothFilterDto> boothFilter(HttpServletRequest request, @RequestParam String filter) {
+    public ResponseEntity<List<BoothFilterDto>> boothFilter(HttpServletRequest request, @RequestParam String filter) {
         List<BoothFilterDto> response = boothService.boothFilterAndSearch(filter);
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/top5")
-    public List<BoothFilterDto> boothTopFive(HttpServletRequest request) {
+    public ResponseEntity<List<BoothFilterDto>> boothTopFive(HttpServletRequest request) {
         List<BoothFilterDto> response = boothService.boothTopFive();
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public List<BoothDayLocationDto> boothDayLocation(HttpServletRequest request,
-                                                      @RequestParam String day,
-                                                      @RequestParam String location
+    public ResponseEntity<List<BoothDayLocationDto>> boothDayLocation(HttpServletRequest request,
+                                                                      @RequestParam String day,
+                                                                      @RequestParam String location
     ) {
         List<BoothDayLocationDto> response = boothService.boothDayLocation(day, location);
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping()
-    public Integer boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList, @RequestParam(value = "boothDto") BoothCreate boothDto) {
-        Booth booth = boothService.create(boothDto);
-        if (imgList == null) {
-            return HttpStatus.OK.value();
-        }
-        imageService.saveBoothImage(imgList, booth);
-        return HttpStatus.OK.value();
+    public ResponseEntity<Void> boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList,
+                                            @RequestParam(value = "boothDto") BoothCreate boothDto) {
+        Long savedBoothId = boothService.create(boothDto);
+        return ResponseEntity.created(URI.create("/api/booths/" + savedBoothId))
+            .build();
     }
 
     @GetMapping("{id}")
-    public BoothDto boothRead(HttpServletRequest request, @PathVariable Long id) {
+    public ResponseEntity<BoothDto> boothRead(HttpServletRequest request, @PathVariable Long id) {
         BoothDto response = boothService.read(id);
         response.updateIsLike(checkIsLike(request, id));
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("{id}")
-    public Booth boothUpdate(@PathVariable Long id, @RequestBody BoothUpdate boothDto) {
-        return boothService.update(id, boothDto);
+    public ResponseEntity<BoothDto> boothUpdate(@PathVariable Long id, @RequestBody BoothUpdate boothUpdateRequest) {
+        final BoothDto response = boothService.update(id, boothUpdateRequest);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("{id}")
-    public String boothDelete(@PathVariable Long id) {
-        return boothService.delete(id);
+    public ResponseEntity<Void> boothDelete(@PathVariable Long id) {
+        boothService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     private boolean checkIsLike(HttpServletRequest request, Long id) {
@@ -91,7 +102,8 @@ public class BoothController {
     }
 
     @PostMapping("/{id}/likes")
-    public LikesResponseDto likeCreate(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
+    public LikesResponseDto likeCreate(@PathVariable Long id, HttpServletRequest request,
+                                       HttpServletResponse response) {
         Optional<Cookie> boothCookie = likesService.findBoothCookie(request, id);
         if (boothCookie.isPresent()) {
             throw new IllegalArgumentException("이미 쿠키 있음");
@@ -123,7 +135,8 @@ public class BoothController {
     }
 
     @PostMapping("{id}/comments")
-    public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
+    public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto,
+                                            HttpServletRequest request) {
         return commentService.create(id, commentRequestDto, request);
     }
 

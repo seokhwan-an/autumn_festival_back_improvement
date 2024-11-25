@@ -1,6 +1,10 @@
 package likelion.festival.booth.application;
 
-import likelion.festival.booth.application.dto.*;
+import likelion.festival.booth.application.dto.BoothCreate;
+import likelion.festival.booth.application.dto.BoothDayLocationDto;
+import likelion.festival.booth.application.dto.BoothDto;
+import likelion.festival.booth.application.dto.BoothFilterDto;
+import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.global.exception.WrongBoothId;
@@ -9,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -58,7 +64,7 @@ public class BoothService {
 
     //생성 ok
     @Transactional
-    public Booth create(BoothCreate request) {
+    public Long create(BoothCreate request) {
         Booth booth = Booth.forSave(
             request.getTitle(),
             request.getContent(),
@@ -70,7 +76,8 @@ public class BoothService {
             request.getStartAt(),
             request.getEndAt()
         );
-        return boothRepository.save(booth);
+
+        return boothRepository.save(booth).getId();
     }
 
     //읽기 ok
@@ -82,7 +89,7 @@ public class BoothService {
 
     //수정 ok
     @Transactional
-    public Booth update(Long id, BoothUpdate request) {
+    public BoothDto update(Long id, BoothUpdate request) {
         Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
 
@@ -96,18 +103,15 @@ public class BoothService {
             request.getStartAt(),
             request.getEndAt()
         );
-        return booth;
+        return BoothDto.of(booth);
     }
 
     //삭제
     @Transactional
-    public String delete(Long id) {
-        Optional<Booth> booth = boothRepository.findById(id);
-        if (booth.isEmpty()) {
-            throw new WrongBoothId();
-        }
-        boothRepository.delete(booth.get());
-        return "Ok";
+    public void delete(Long id) {
+        Booth booth = boothRepository.findById(id)
+            .orElseThrow(WrongBoothId::new);
+        boothRepository.delete(booth);
     }
 
     public HashMap<String, String> festivalDate() {
