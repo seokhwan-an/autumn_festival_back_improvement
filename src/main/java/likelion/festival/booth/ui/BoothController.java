@@ -1,7 +1,11 @@
 package likelion.festival.booth.ui;
 
 import likelion.festival.booth.application.BoothService;
-import likelion.festival.booth.application.dto.*;
+import likelion.festival.booth.application.dto.BoothCreate;
+import likelion.festival.booth.application.dto.BoothDayLocationDto;
+import likelion.festival.booth.application.dto.BoothDto;
+import likelion.festival.booth.application.dto.BoothFilterDto;
+import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.comment.appliction.CommentService;
 import likelion.festival.comment.appliction.dto.CommentRequestDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
@@ -12,7 +16,16 @@ import likelion.festival.menu.application.dto.MenuRequestDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
@@ -48,8 +61,8 @@ public class BoothController {
 
     @GetMapping
     public ResponseEntity<List<BoothDayLocationDto>> boothDayLocation(HttpServletRequest request,
-                                                      @RequestParam String day,
-                                                      @RequestParam String location
+                                                                      @RequestParam String day,
+                                                                      @RequestParam String location
     ) {
         List<BoothDayLocationDto> response = boothService.boothDayLocation(day, location);
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
@@ -58,7 +71,7 @@ public class BoothController {
 
     @PostMapping()
     public ResponseEntity<Void> boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList,
-                               @RequestParam(value = "boothDto") BoothCreate boothDto) {
+                                            @RequestParam(value = "boothDto") BoothCreate boothDto) {
         Long savedBoothId = boothService.create(boothDto);
         return ResponseEntity.created(URI.create("/api/booths/" + savedBoothId))
             .build();
