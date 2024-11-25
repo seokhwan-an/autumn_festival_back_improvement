@@ -33,27 +33,27 @@ public class BoothController {
     private final MenuService menuService;
 
     @GetMapping(params = {"filter"})
-    public List<BoothFilterDto> boothFilter(HttpServletRequest request, @RequestParam String filter) {
+    public ResponseEntity<List<BoothFilterDto>> boothFilter(HttpServletRequest request, @RequestParam String filter) {
         List<BoothFilterDto> response = boothService.boothFilterAndSearch(filter);
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/top5")
-    public List<BoothFilterDto> boothTopFive(HttpServletRequest request) {
+    public ResponseEntity<List<BoothFilterDto>> boothTopFive(HttpServletRequest request) {
         List<BoothFilterDto> response = boothService.boothTopFive();
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public List<BoothDayLocationDto> boothDayLocation(HttpServletRequest request,
+    public ResponseEntity<List<BoothDayLocationDto>> boothDayLocation(HttpServletRequest request,
                                                       @RequestParam String day,
                                                       @RequestParam String location
     ) {
         List<BoothDayLocationDto> response = boothService.boothDayLocation(day, location);
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping()
@@ -65,10 +65,10 @@ public class BoothController {
     }
 
     @GetMapping("{id}")
-    public BoothDto boothRead(HttpServletRequest request, @PathVariable Long id) {
+    public ResponseEntity<BoothDto> boothRead(HttpServletRequest request, @PathVariable Long id) {
         BoothDto response = boothService.read(id);
         response.updateIsLike(checkIsLike(request, id));
-        return response;
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("{id}")
