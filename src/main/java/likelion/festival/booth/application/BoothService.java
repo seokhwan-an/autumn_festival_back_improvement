@@ -102,13 +102,10 @@ public class BoothService {
 
     //삭제
     @Transactional
-    public String delete(Long id) {
-        Optional<Booth> booth = boothRepository.findById(id);
-        if (booth.isEmpty()) {
-            throw new WrongBoothId();
-        }
-        boothRepository.delete(booth.get());
-        return "Ok";
+    public void delete(Long id) {
+        Booth booth = boothRepository.findById(id)
+            .orElseThrow(WrongBoothId::new);
+        boothRepository.delete(booth);
     }
 
     public HashMap<String, String> festivalDate() {

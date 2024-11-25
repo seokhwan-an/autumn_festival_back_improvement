@@ -78,8 +78,9 @@ public class BoothController {
     }
 
     @DeleteMapping("{id}")
-    public String boothDelete(@PathVariable Long id) {
-        return boothService.delete(id);
+    public ResponseEntity<Void> boothDelete(@PathVariable Long id) {
+        boothService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     private boolean checkIsLike(HttpServletRequest request, Long id) {
