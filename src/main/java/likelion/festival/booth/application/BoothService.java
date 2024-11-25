@@ -82,7 +82,7 @@ public class BoothService {
 
     //수정 ok
     @Transactional
-    public Booth update(Long id, BoothUpdate request) {
+    public BoothDto update(Long id, BoothUpdate request) {
         Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
 
@@ -96,7 +96,7 @@ public class BoothService {
             request.getStartAt(),
             request.getEndAt()
         );
-        return booth;
+        return BoothDto.of(booth);
     }
 
     //삭제

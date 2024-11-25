@@ -14,6 +14,7 @@ import likelion.festival.menu.application.dto.MenuRequestDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,7 +60,8 @@ public class BoothController {
     }
 
     @PostMapping()
-    public Integer boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList, @RequestParam(value = "boothDto") BoothCreate boothDto) {
+    public Integer boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList,
+                               @RequestParam(value = "boothDto") BoothCreate boothDto) {
         Booth booth = boothService.create(boothDto);
         if (imgList == null) {
             return HttpStatus.OK.value();
@@ -76,8 +78,9 @@ public class BoothController {
     }
 
     @PutMapping("{id}")
-    public Booth boothUpdate(@PathVariable Long id, @RequestBody BoothUpdate boothDto) {
-        return boothService.update(id, boothDto);
+    public ResponseEntity<BoothDto> boothUpdate(@PathVariable Long id, @RequestBody BoothUpdate boothUpdateRequest) {
+        final BoothDto response = boothService.update(id, boothUpdateRequest);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("{id}")
@@ -91,7 +94,8 @@ public class BoothController {
     }
 
     @PostMapping("/{id}/likes")
-    public LikesResponseDto likeCreate(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
+    public LikesResponseDto likeCreate(@PathVariable Long id, HttpServletRequest request,
+                                       HttpServletResponse response) {
         Optional<Cookie> boothCookie = likesService.findBoothCookie(request, id);
         if (boothCookie.isPresent()) {
             throw new IllegalArgumentException("이미 쿠키 있음");
@@ -123,7 +127,8 @@ public class BoothController {
     }
 
     @PostMapping("{id}/comments")
-    public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, HttpServletRequest request) {
+    public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto,
+                                            HttpServletRequest request) {
         return commentService.create(id, commentRequestDto, request);
     }
 
