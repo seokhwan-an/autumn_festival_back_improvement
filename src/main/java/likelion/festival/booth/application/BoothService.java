@@ -58,7 +58,7 @@ public class BoothService {
 
     //생성 ok
     @Transactional
-    public Booth create(BoothCreate request) {
+    public Long create(BoothCreate request) {
         Booth booth = Booth.forSave(
             request.getTitle(),
             request.getContent(),
@@ -70,7 +70,8 @@ public class BoothService {
             request.getStartAt(),
             request.getEndAt()
         );
-        return boothRepository.save(booth);
+
+        return boothRepository.save(booth).getId();
     }
 
     //읽기 ok

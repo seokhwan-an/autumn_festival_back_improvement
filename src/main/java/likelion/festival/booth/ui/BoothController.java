@@ -2,18 +2,15 @@ package likelion.festival.booth.ui;
 
 import likelion.festival.booth.application.BoothService;
 import likelion.festival.booth.application.dto.*;
-import likelion.festival.booth.domain.Booth;
 import likelion.festival.comment.appliction.CommentService;
 import likelion.festival.comment.appliction.dto.CommentRequestDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
-import likelion.festival.global.image.application.ImageService;
 import likelion.festival.like.application.LikesService;
 import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.menu.application.MenuService;
 import likelion.festival.menu.application.dto.MenuRequestDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +31,6 @@ public class BoothController {
     private final LikesService likesService;
     private final CommentService commentService;
     private final MenuService menuService;
-    private final ImageService imageService;
 
     @GetMapping(params = {"filter"})
     public List<BoothFilterDto> boothFilter(HttpServletRequest request, @RequestParam String filter) {
@@ -60,14 +57,11 @@ public class BoothController {
     }
 
     @PostMapping()
-    public Integer boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList,
+    public ResponseEntity<Void> boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList,
                                @RequestParam(value = "boothDto") BoothCreate boothDto) {
-        Booth booth = boothService.create(boothDto);
-        if (imgList == null) {
-            return HttpStatus.OK.value();
-        }
-        imageService.saveBoothImage(imgList, booth);
-        return HttpStatus.OK.value();
+        Long savedBoothId = boothService.create(boothDto);
+        return ResponseEntity.created(URI.create("/api/booths/" + savedBoothId))
+            .build();
     }
 
     @GetMapping("{id}")
