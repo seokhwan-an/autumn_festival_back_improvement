@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
-import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
@@ -21,13 +20,14 @@ public class LikesService {
 
     private final LikesRepository likesRepository;
     private final BoothRepository boothRepository;
+    private final LikeKeyGenerator likeKeyGenerator;
 
     public LikesResponseDto create(Long id) {
         Optional<Booth> booth = boothRepository.findById(id);
         if (booth.isEmpty()) {
             throw new WrongBoothId();
         }
-        String newCookieKey = createCookieKey();
+        String newCookieKey = likeKeyGenerator.generateLikeKey();
         Likes likes = Likes.forSave(newCookieKey, booth.get());
         Likes newLikes = likesRepository.save(likes);
 
@@ -44,25 +44,6 @@ public class LikesService {
             throw new WrongLikesKey();
         }
         likesRepository.deleteById(likes.get().getId());
-    }
-
-    private String createCookieKey() {
-        while (true) {
-            String cookieKey = createRandomString();
-            Optional<Likes> likes = likesRepository.findByCookieKey(cookieKey);
-            if (likes.isEmpty()) {
-                return cookieKey;
-            }
-        }
-    }
-
-    private String createRandomString() {
-        int targetStringLength = 10;
-        Random random = new Random();
-        return random.ints(97, 123)
-            .limit(targetStringLength)
-            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-            .toString();
     }
 
     public Optional<Cookie> findBoothCookie(HttpServletRequest request, Long id) {
