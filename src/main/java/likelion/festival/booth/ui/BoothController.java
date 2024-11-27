@@ -9,8 +9,7 @@ import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.comment.appliction.CommentService;
 import likelion.festival.comment.appliction.dto.CommentRequestDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
-import likelion.festival.like.application.LikesService;
-import likelion.festival.like.application.dto.LikesResponseDto;
+import likelion.festival.global.cookie.CookieUtil;
 import likelion.festival.menu.application.MenuService;
 import likelion.festival.menu.application.dto.MenuRequestDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
@@ -28,12 +27,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/booths")
@@ -41,9 +38,9 @@ import java.util.Optional;
 public class BoothController {
 
     private final BoothService boothService;
-    private final LikesService likesService;
     private final CommentService commentService;
     private final MenuService menuService;
+    private final CookieUtil cookieUtil;
 
     @GetMapping(params = {"filter"})
     public ResponseEntity<List<BoothFilterDto>> boothFilter(HttpServletRequest request, @RequestParam String filter) {
@@ -97,41 +94,8 @@ public class BoothController {
     }
 
     private boolean checkIsLike(HttpServletRequest request, Long id) {
-        Optional<Cookie> boothCookie = likesService.findBoothCookie(request, id);
-        return boothCookie.isPresent();
-    }
-
-    @PostMapping("/{id}/likes")
-    public LikesResponseDto likeCreate(@PathVariable Long id, HttpServletRequest request,
-                                       HttpServletResponse response) {
-        Optional<Cookie> boothCookie = likesService.findBoothCookie(request, id);
-        if (boothCookie.isPresent()) {
-            throw new IllegalArgumentException("이미 쿠키 있음");
-        }
-        LikesResponseDto likes = likesService.create(id);
-        Cookie keyCokkie = new Cookie(id.toString(), likes.getCookieKey());
-        keyCokkie.setMaxAge(7 * 60 * 60 * 24);
-        keyCokkie.setPath("/");
-        response.addCookie(keyCokkie);
-        return likes;
-    }
-
-    @DeleteMapping("/{id}/likes")
-    public String likeDelete(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
-        Optional<Cookie> boothCookie = likesService.findBoothCookie(request, id);
-        if (boothCookie.isPresent()) {
-            Cookie userCookie = boothCookie.get();
-            String cookieKey = userCookie.getValue();
-            likesService.delete(id, cookieKey);
-
-            Cookie keyCookie = new Cookie(id.toString(), null);
-            keyCookie.setMaxAge(0);
-            keyCookie.setPath("/");
-            response.addCookie(keyCookie);
-        } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        }
-        return "Ok";
+        Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
+        return likedBooths.containsKey(id.toString());
     }
 
     @PostMapping("{id}/comments")
