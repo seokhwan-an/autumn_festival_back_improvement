@@ -71,7 +71,7 @@ public class BoothController {
 
     @PostMapping()
     public ResponseEntity<Void> boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList,
-                                            @RequestParam(value = "boothDto") BoothCreate boothDto) {
+                                            @RequestBody BoothCreate boothDto) {
         Long savedBoothId = boothService.create(boothDto);
         return ResponseEntity.created(URI.create("/api/booths/" + savedBoothId))
             .build();

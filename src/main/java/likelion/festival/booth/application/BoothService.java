@@ -50,8 +50,7 @@ public class BoothService {
 
     //날짜와 장소로 필터링 하는 기능 ok
     public List<BoothDayLocationDto> boothDayLocation(String day, String location) {
-        HashMap<String, String> date = festivalDate();
-        LocalDate today = StringToDate(date.get(day));
+        LocalDate today = LocalDate.parse(day);
         List<Booth> booths = boothRepository.findByLocation(location);
         return booths.stream()
             .filter(e -> StringToDate(e.getStartAt()).isBefore(today)
@@ -112,14 +111,6 @@ public class BoothService {
         Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
         boothRepository.delete(booth);
-    }
-
-    public HashMap<String, String> festivalDate() {
-        HashMap<String, String> date = new HashMap<>();
-        date.put("1", "2022-09-28");
-        date.put("2", "2022-09-29");
-        date.put("3", "2022-09-30");
-        return date;
     }
 
     public LocalDate StringToDate(String date) {
