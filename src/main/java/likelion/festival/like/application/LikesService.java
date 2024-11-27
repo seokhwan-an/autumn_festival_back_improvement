@@ -1,11 +1,11 @@
 package likelion.festival.like.application;
 
-import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.like.domain.Likes;
+import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.global.exception.WrongLikesKey;
-import likelion.festival.booth.domain.repository.BoothRepository;
+import likelion.festival.like.application.dto.LikesResponseDto;
+import likelion.festival.like.domain.Likes;
 import likelion.festival.like.domain.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,13 @@ public class LikesService {
     private final LikesRepository likesRepository;
     private final BoothRepository boothRepository;
 
-    public LikesResponseDto create(Long id){
+    public LikesResponseDto create(Long id) {
         Optional<Booth> booth = boothRepository.findById(id);
-        if (booth.isEmpty()){
+        if (booth.isEmpty()) {
             throw new WrongBoothId();
         }
         String newCookieKey = createCookieKey();
-        Likes likes = Likes.builder().booth(booth.get()).cookieKey(newCookieKey).build();
+        Likes likes = Likes.forSave(newCookieKey, booth.get());
         Likes newLikes = likesRepository.save(likes);
 
         return entityToDto(newLikes);
@@ -40,48 +40,48 @@ public class LikesService {
             throw new WrongBoothId();
         }
         Optional<Likes> likes = likesRepository.findByCookieKey(cookieKey);
-        if (likes.isEmpty()){
+        if (likes.isEmpty()) {
             throw new WrongLikesKey();
         }
         likesRepository.deleteById(likes.get().getId());
     }
 
-    private String createCookieKey(){
+    private String createCookieKey() {
         while (true) {
             String cookieKey = createRandomString();
             Optional<Likes> likes = likesRepository.findByCookieKey(cookieKey);
-            if (likes.isEmpty()){
+            if (likes.isEmpty()) {
                 return cookieKey;
             }
         }
     }
 
-    private String createRandomString(){
+    private String createRandomString() {
         int targetStringLength = 10;
         Random random = new Random();
         return random.ints(97, 123)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+            .limit(targetStringLength)
+            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+            .toString();
     }
 
-    public Optional<Cookie> findBoothCookie(HttpServletRequest request, Long id){
+    public Optional<Cookie> findBoothCookie(HttpServletRequest request, Long id) {
         Cookie[] userCookies = request.getCookies();
-        if (userCookies == null){
+        if (userCookies == null) {
             return Optional.empty();
         }
         for (Cookie userCookie : userCookies) {
-            if (userCookie.getName().equals(id.toString())){
+            if (userCookie.getName().equals(id.toString())) {
                 return Optional.of(userCookie);
             }
         }
         return Optional.empty();
     }
 
-    private LikesResponseDto entityToDto(Likes likes){
+    private LikesResponseDto entityToDto(Likes likes) {
         return LikesResponseDto.builder()
-                .boothId(likes.getBooth().getId())
-                .cookieKey(likes.getCookieKey())
-                .build();
+            .boothId(likes.getBooth().getId())
+            .cookieKey(likes.getCookieKey())
+            .build();
     }
 }
