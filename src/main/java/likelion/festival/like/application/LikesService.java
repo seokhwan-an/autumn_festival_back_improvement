@@ -28,7 +28,7 @@ public class LikesService {
             throw new WrongBoothId();
         }
         String newCookieKey = createCookieKey();
-        Likes likes = Likes.builder().booth(booth.get()).cookieKey(newCookieKey).build();
+        Likes likes = Likes.forSave(newCookieKey, booth.get());
         Likes newLikes = likesRepository.save(likes);
 
         return entityToDto(newLikes);

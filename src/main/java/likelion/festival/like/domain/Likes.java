@@ -1,29 +1,42 @@
 package likelion.festival.like.domain;
 
-import com.sun.istack.NotNull;
 import likelion.festival.booth.domain.Booth;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.ConstraintMode;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Likes {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String cookieKey;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id")
+    @JoinColumn(name = "booth_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Booth booth;
+
+    public Likes(Long id, String cookieKey, Booth booth) {
+        this.id = id;
+        this.cookieKey = cookieKey;
+        this.booth = booth;
+    }
+
+    public static Likes forSave(String cookieKey, Booth booth) {
+        return new Likes(null, cookieKey, booth);
+    }
 }
