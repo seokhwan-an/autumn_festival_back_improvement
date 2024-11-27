@@ -29,9 +29,9 @@ public class LikesService {
         }
         String newCookieKey = likeKeyGenerator.generateLikeKey();
         Likes likes = Likes.forSave(newCookieKey, booth.get());
-        Likes newLikes = likesRepository.save(likes);
+        likesRepository.save(likes);
 
-        return entityToDto(newLikes);
+        return LikesResponseDto.of(likes);
     }
 
     public void delete(Long boothId, String cookieKey) {
@@ -57,12 +57,5 @@ public class LikesService {
             }
         }
         return Optional.empty();
-    }
-
-    private LikesResponseDto entityToDto(Likes likes) {
-        return LikesResponseDto.builder()
-            .boothId(likes.getBooth().getId())
-            .cookieKey(likes.getCookieKey())
-            .build();
     }
 }
