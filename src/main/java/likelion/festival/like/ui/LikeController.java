@@ -4,6 +4,7 @@ import likelion.festival.global.cookie.CookieUtil;
 import likelion.festival.like.application.LikesService;
 import likelion.festival.like.application.dto.LikesResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -24,8 +26,8 @@ public class LikeController {
     private final CookieUtil cookieUtil;
 
     @PostMapping
-    public LikesResponseDto likeCreate(@PathVariable(name = "booth_id") Long id, HttpServletRequest request,
-                                       HttpServletResponse response) {
+    public ResponseEntity<LikesResponseDto> likeCreate(@PathVariable(name = "booth_id") Long id, HttpServletRequest request,
+                                                       HttpServletResponse response) {
         Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
         LikesResponseDto responseDto = likesService.create(id, likedBooths);
 
@@ -33,11 +35,11 @@ public class LikeController {
         keyCokkie.setMaxAge(7 * 60 * 60 * 24);
         keyCokkie.setPath("/");
         response.addCookie(keyCokkie);
-        return responseDto;
+        return ResponseEntity.created(URI.create("/api/booths/" + id + "/likes/" + responseDto.getId())).build();
     }
 
     @DeleteMapping
-    public String likeDelete(@PathVariable(name = "booth_id") Long id, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Void> likeDelete(@PathVariable(name = "booth_id") Long id, HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
         Long deletedId = likesService.delete(id, likedBooths);
 
@@ -46,6 +48,6 @@ public class LikeController {
         keyCookie.setPath("/");
         response.addCookie(keyCookie);
 
-        return "Ok";
+        return ResponseEntity.noContent().build();
     }
 }
