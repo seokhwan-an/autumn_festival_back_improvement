@@ -9,7 +9,7 @@ import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.comment.appliction.CommentService;
 import likelion.festival.comment.appliction.dto.CommentRequestDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
-import likelion.festival.like.application.LikesService;
+import likelion.festival.global.cookie.CookieUtil;
 import likelion.festival.menu.application.MenuService;
 import likelion.festival.menu.application.dto.MenuRequestDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
@@ -27,11 +27,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/booths")
@@ -39,9 +38,9 @@ import java.util.Optional;
 public class BoothController {
 
     private final BoothService boothService;
-    private final LikesService likesService;
     private final CommentService commentService;
     private final MenuService menuService;
+    private final CookieUtil cookieUtil;
 
     @GetMapping(params = {"filter"})
     public ResponseEntity<List<BoothFilterDto>> boothFilter(HttpServletRequest request, @RequestParam String filter) {
@@ -95,8 +94,8 @@ public class BoothController {
     }
 
     private boolean checkIsLike(HttpServletRequest request, Long id) {
-        Optional<Cookie> boothCookie = likesService.findBoothCookie(request, id);
-        return boothCookie.isPresent();
+        Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
+        return likedBooths.containsKey(id.toString());
     }
 
     @PostMapping("{id}/comments")

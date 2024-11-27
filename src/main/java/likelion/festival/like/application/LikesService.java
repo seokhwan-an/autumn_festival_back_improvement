@@ -10,9 +10,7 @@ import likelion.festival.like.domain.repository.LikesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -22,40 +20,31 @@ public class LikesService {
     private final BoothRepository boothRepository;
     private final LikeKeyGenerator likeKeyGenerator;
 
-    public LikesResponseDto create(Long id) {
-        Optional<Booth> booth = boothRepository.findById(id);
-        if (booth.isEmpty()) {
-            throw new WrongBoothId();
+    public LikesResponseDto create(Long id, Map<String, String> likes) {
+        Booth booth = boothRepository.findById(id)
+            .orElseThrow(WrongBoothId::new);
+
+        if (likes.containsKey(id.toString())) {
+            throw new IllegalArgumentException("이미 쿠키 있음");
         }
+
         String newCookieKey = likeKeyGenerator.generateLikeKey();
-        Likes likes = Likes.forSave(newCookieKey, booth.get());
-        likesRepository.save(likes);
+        Likes create = Likes.forSave(newCookieKey, booth);
+        likesRepository.save(create);
 
-        return LikesResponseDto.of(likes);
+        return LikesResponseDto.of(create);
     }
 
-    public void delete(Long boothId, String cookieKey) {
-        Optional<Booth> booth = boothRepository.findById(boothId);
-        if (booth.isEmpty()) {
-            throw new WrongBoothId();
-        }
-        Optional<Likes> likes = likesRepository.findByCookieKey(cookieKey);
-        if (likes.isEmpty()) {
-            throw new WrongLikesKey();
-        }
-        likesRepository.deleteById(likes.get().getId());
-    }
+    public Long delete(Long boothId, Map<String, String> likes) {
+        Booth booth = boothRepository.findById(boothId)
+            .orElseThrow(WrongBoothId::new);
 
-    public Optional<Cookie> findBoothCookie(HttpServletRequest request, Long id) {
-        Cookie[] userCookies = request.getCookies();
-        if (userCookies == null) {
-            return Optional.empty();
+        if (!likes.containsKey(boothId.toString())) {
+            throw new IllegalArgumentException("해당 좋아요 쿠키 없음");
         }
-        for (Cookie userCookie : userCookies) {
-            if (userCookie.getName().equals(id.toString())) {
-                return Optional.of(userCookie);
-            }
-        }
-        return Optional.empty();
+        final Likes like = likesRepository.findByBoothAndCookieKey(booth, likes.get(boothId.toString()))
+            .orElseThrow(WrongLikesKey::new);
+        likesRepository.delete(like);
+        return like.getId();
     }
 }
