@@ -14,4 +14,18 @@ public class CookieUtil {
         return Arrays.stream(cookies)
             .collect(Collectors.toMap(Cookie::getName, Cookie::getValue));
     }
+
+    public Cookie generateCookie(String boothId, String cookieKey) {
+        Cookie cookie = new Cookie(boothId, cookieKey);
+        cookie.setMaxAge(7 * 60 * 60 * 24);
+        cookie.setPath("/");
+        return cookie;
+    }
+
+    public Cookie deleteCookie(String key) {
+        Cookie cookie = new Cookie(key, null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        return cookie;
+    }
 }

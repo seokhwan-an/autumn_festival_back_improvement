@@ -31,10 +31,8 @@ public class LikeController {
         Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
         LikesResponseDto responseDto = likesService.create(id, likedBooths);
 
-        Cookie keyCokkie = new Cookie(responseDto.getBoothId().toString(), responseDto.getCookieKey());
-        keyCokkie.setMaxAge(7 * 60 * 60 * 24);
-        keyCokkie.setPath("/");
-        response.addCookie(keyCokkie);
+        Cookie likeCookie = cookieUtil.generateCookie(responseDto.getBoothId().toString(), responseDto.getCookieKey());
+        response.addCookie(likeCookie);
         return ResponseEntity.created(URI.create("/api/booths/" + id + "/likes/" + responseDto.getId())).build();
     }
 
@@ -43,9 +41,7 @@ public class LikeController {
         Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
         Long deletedId = likesService.delete(id, likedBooths);
 
-        Cookie keyCookie = new Cookie(deletedId.toString(), null);
-        keyCookie.setMaxAge(0);
-        keyCookie.setPath("/");
+        Cookie keyCookie = cookieUtil.deleteCookie(deletedId.toString());
         response.addCookie(keyCookie);
 
         return ResponseEntity.noContent().build();
