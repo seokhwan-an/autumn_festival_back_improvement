@@ -11,6 +11,7 @@ import likelion.festival.support.BoothFixtureGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,70 +43,91 @@ class BoothControllerTest {
         boothRepository.deleteAll();
     }
 
-    @DisplayName("부스 생성 시 201 상태 코드를 반환한다.")
-    @Test
-    void create_booth() {
-        // given
-        BoothCreate boothCreate = new BoothCreate("주점", "주점 소개", "주점", "주점 위치", 1, "주점 공지사항", "주점 상세 정보", "2024-11-25", "2024/11/27");
+    @DisplayName("부스 생성")
+    @Nested
+    class CreateBooth {
 
-        // when & then
-        RestAssured.given()
-            .contentType("application/json")
-            .body(boothCreate)
-            .when()
-            .post("/api/booths")
-            .then()
-            .statusCode(HttpStatus.CREATED.value());
+        @DisplayName("부스 생성 시 201 상태 코드를 반환한다.")
+        @Test
+        void create_booth() {
+            // given
+            BoothCreate boothCreate = new BoothCreate("주점", "주점 소개", "주점", "주점 위치", 1, "주점 공지사항", "주점 상세 정보", "2024-11-25", "2024/11/27");
+
+            // when & then
+            RestAssured.given()
+                .contentType("application/json")
+                .body(boothCreate)
+                .when()
+                .post("/api/booths")
+                .then()
+                .statusCode(HttpStatus.CREATED.value());
+        }
     }
 
-    @DisplayName("부스 수정 시 상태 코드 200과 변환된 정보를 반환한다.")
-    @Test
-    void update_booth() {
-        // given
-        Booth booth = boothFixtureGenerator.generateSingleData();
-        BoothUpdate boothUpdate = new BoothUpdate("부스 수정", "부스 소개", "부스", "주점 위치", 1, "주점 공지사항", "주점 상세 정보", "2024-11-25", "2024-11-27");
+    @DisplayName("부스 조회")
+    @Nested
+    class ReadBooth {
 
-        // when
-        BoothDto response = RestAssured.given()
-            .contentType("application/json")
-            .body(boothUpdate)
-            .when()
-            .put("/api/booths/" + booth.getId())
-            .then()
-            .statusCode(HttpStatus.OK.value())
-            .extract()
-            .body().as(BoothDto.class);
-
-        // then
-        assertAll(
-            () -> assertThat(response.getId()).isEqualTo(booth.getId()),
-            () -> assertThat(response.getTitle()).isEqualTo(boothUpdate.getTitle()),
-            () -> assertThat(response.getContent()).isEqualTo(boothUpdate.getContent()),
-            () -> assertThat(response.getNotice()).isEqualTo(boothUpdate.getNotice()),
-            () -> assertThat(response.getBoothType()).isEqualTo(BoothType.valueOf(boothUpdate.getBoothType())),
-            () -> assertThat(response.getLocation()).isEqualTo(boothUpdate.getLocation()),
-            () -> assertThat(response.getBoothNo()).isEqualTo(boothUpdate.getBoothNo()),
-            () -> assertThat(response.getStartAt()).isEqualTo(boothUpdate.getStartAt()),
-            () -> assertThat(response.getEndAt()).isEqualTo(boothUpdate.getEndAt())
-        );
+        //TODO: 부스 읽기는 like 기능 수정이 되면 추가한다.
     }
 
-    @DisplayName("부스를 삭제한다.")
-    @Test
-    void delete_booth() {
-        // given
-        Booth booth = boothFixtureGenerator.generateSingleData();
+    @DisplayName("부스 수정")
+    @Nested
+    class UpdateBooth {
 
-        // when
-        RestAssured.given()
-            .contentType("application/json")
-            .when()
-            .delete("/api/booths/" + booth.getId())
-            .then()
-            .statusCode(HttpStatus.NO_CONTENT.value());
+        @DisplayName("부스 수정 시 상태 코드 200과 변환된 정보를 반환한다.")
+        @Test
+        void update_booth() {
+            // given
+            Booth booth = boothFixtureGenerator.generateSingleData();
+            BoothUpdate boothUpdate = new BoothUpdate("부스 수정", "부스 소개", "부스", "주점 위치", 1, "주점 공지사항", "주점 상세 정보", "2024-11-25", "2024-11-27");
 
-        // then
-        assertThat(boothRepository.findById(booth.getId())).isEmpty();
+            // when
+            BoothDto response = RestAssured.given()
+                .contentType("application/json")
+                .body(boothUpdate)
+                .when()
+                .put("/api/booths/" + booth.getId())
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .body().as(BoothDto.class);
+
+            // then
+            assertAll(
+                () -> assertThat(response.getId()).isEqualTo(booth.getId()),
+                () -> assertThat(response.getTitle()).isEqualTo(boothUpdate.getTitle()),
+                () -> assertThat(response.getContent()).isEqualTo(boothUpdate.getContent()),
+                () -> assertThat(response.getNotice()).isEqualTo(boothUpdate.getNotice()),
+                () -> assertThat(response.getBoothType()).isEqualTo(BoothType.valueOf(boothUpdate.getBoothType())),
+                () -> assertThat(response.getLocation()).isEqualTo(boothUpdate.getLocation()),
+                () -> assertThat(response.getBoothNo()).isEqualTo(boothUpdate.getBoothNo()),
+                () -> assertThat(response.getStartAt()).isEqualTo(boothUpdate.getStartAt()),
+                () -> assertThat(response.getEndAt()).isEqualTo(boothUpdate.getEndAt())
+            );
+        }
     }
-    //TODO: 부스 읽기는 like 기능 수정이 되면 추가한다.
+
+    @DisplayName("부스 삭제")
+    @Nested
+    class DeleteBooth {
+
+        @DisplayName("부스를 삭제한다.")
+        @Test
+        void delete_booth() {
+            // given
+            Booth booth = boothFixtureGenerator.generateSingleData();
+
+            // when
+            RestAssured.given()
+                .contentType("application/json")
+                .when()
+                .delete("/api/booths/" + booth.getId())
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+
+            // then
+            assertThat(boothRepository.findById(booth.getId())).isEmpty();
+        }
+    }
 }
