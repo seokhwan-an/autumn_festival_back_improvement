@@ -7,8 +7,11 @@ import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.BoothType;
 import likelion.festival.booth.domain.repository.BoothRepository;
+import likelion.festival.like.domain.Likes;
 import likelion.festival.support.BoothFixtureGenerator;
+import likelion.festival.support.LikeFixtureGenerator;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -16,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +30,9 @@ class BoothControllerTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
+
+    @Autowired
+    private LikeFixtureGenerator likeFixtureGenerator;
 
     @Autowired
     private BoothRepository boothRepository;
@@ -68,7 +75,55 @@ class BoothControllerTest {
     @Nested
     class ReadBooth {
 
-        //TODO: 부스 읽기는 like 기능 수정이 되면 추가한다.
+        @DisplayName("like를 누른 특정 부스를 조회한다.")
+        @Test
+        void find_liked_booth_by_id() {
+            // given
+            Booth booth = boothFixtureGenerator.generateSingleData();
+            final Likes like = likeFixtureGenerator.generateSingleData(booth);
+
+            // when
+            final BoothDto response = RestAssured.given()
+                .contentType("application/json")
+                .header(HttpHeaders.COOKIE, String.format("%s=%s", booth.getId(), like.getCookieKey()))
+                .when()
+                .get("/api/booths/" + booth.getId())
+                .then()
+                .extract()
+                .body().as(BoothDto.class);
+
+            // then
+            Assertions.assertAll(
+                () -> assertThat(response.getId()).isEqualTo(booth.getId()),
+                () -> assertThat(response.getIsLike()).isTrue()
+            );
+        }
+
+        @DisplayName("like를 누르지 않은 특정 부스를 조회한다.")
+        @Test
+        void find_not_liked_booth_by_id() {
+            // given
+            Booth booth = boothFixtureGenerator.generateSingleData();
+            final Likes like = likeFixtureGenerator.generateSingleData(booth);
+
+            // when
+            final BoothDto response = RestAssured.given()
+                .contentType("application/json")
+                .header(HttpHeaders.COOKIE, String.format("%s=%s", booth.getId() + 1, like.getCookieKey()))
+                .when()
+                .get("/api/booths/" + booth.getId())
+                .then()
+                .extract()
+                .body().as(BoothDto.class);
+
+            // then
+            Assertions.assertAll(
+                () -> assertThat(response.getId()).isEqualTo(booth.getId()),
+                () -> assertThat(response.getIsLike()).isFalse()
+            );
+        }
+
+        //TODO: 부스 top5 및 검색 필터 조회 테스트를 추가한다.
     }
 
     @DisplayName("부스 수정")
