@@ -8,6 +8,7 @@ import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.like.domain.Likes;
 import likelion.festival.like.domain.repository.LikesRepository;
 import likelion.festival.support.BoothFixtureGenerator;
+import likelion.festival.support.LikeFixtureGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,9 @@ class LikeControllerTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
+
+    @Autowired
+    private LikeFixtureGenerator likeFixtureGenerator;
 
     @Autowired
     private BoothRepository boothRepository;
@@ -83,14 +87,12 @@ class LikeControllerTest {
         void delete_like_to_booth() {
             // given
             final Booth booth = boothFixtureGenerator.generateSingleData();
-            final Long boothId = booth.getId();
-            Likes like = Likes.forSave("cookieKey", booth);
-            likesRepository.save(like);
+            Likes like = likeFixtureGenerator.generateSingleData(booth);
 
             // when
             final ExtractableResponse<Response> result = RestAssured.given().log().all()
                 .contentType("application/json")
-                .header(HttpHeaders.COOKIE, String.format("%s=%s", boothId, "cookieKey"))
+                .header(HttpHeaders.COOKIE, String.format("%s=%s", booth.getId(), like.getCookieKey()))
                 .when()
                 .delete("/api/booths/{booth_id}/likes", booth.getId())
                 .then().log().all()
@@ -99,7 +101,7 @@ class LikeControllerTest {
             // then
             Assertions.assertAll(
                 () -> assertThat(result.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value()),
-                () -> assertThat(result.cookies().get("1")).isNullOrEmpty()
+                () -> assertThat(result.cookies().get(booth.getId().toString())).isNullOrEmpty()
             );
         }
     }

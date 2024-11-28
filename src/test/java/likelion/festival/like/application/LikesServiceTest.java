@@ -7,6 +7,7 @@ import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.like.domain.Likes;
 import likelion.festival.like.domain.repository.LikesRepository;
 import likelion.festival.support.BoothFixtureGenerator;
+import likelion.festival.support.LikeFixtureGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,9 @@ class LikesServiceTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
+
+    @Autowired
+    private LikeFixtureGenerator likeFixtureGenerator;
 
     private LikesService likesService;
 
@@ -99,11 +103,10 @@ class LikesServiceTest {
         void delete_like_to_booth() {
             // given
             Booth booth = boothFixtureGenerator.generateSingleData();
-            Likes like = Likes.forSave("boothLikeKey", booth);
-            likesRepository.save(like);
+            Likes like = likeFixtureGenerator.generateSingleData(booth);
 
             // when
-            Long result = likesService.delete(booth.getId(), Map.of(booth.getId().toString(), "boothLikeKey"));
+            Long result = likesService.delete(booth.getId(), Map.of(booth.getId().toString(), like.getCookieKey()));
 
             // then
             Assertions.assertAll(
