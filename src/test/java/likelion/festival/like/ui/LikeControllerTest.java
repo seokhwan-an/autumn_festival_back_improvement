@@ -60,10 +60,10 @@ class LikeControllerTest {
         @Test
         void create_like_to_booth() {
             // given
-            final Booth booth = boothFixtureGenerator.generateSingleData();
+            Booth booth = boothFixtureGenerator.generateSingleData();
 
             // when
-            final ExtractableResponse<Response> result = RestAssured.given()
+            ExtractableResponse<Response> result = RestAssured.given()
                 .contentType("application/json")
                 .when()
                 .post("/api/booths/{booth_id}/likes", booth.getId())
@@ -71,9 +71,11 @@ class LikeControllerTest {
                 .extract();
 
             // then
+            String generatedCookieValue = result.cookies().get(booth.getId().toString());
             Assertions.assertAll(
                 () -> assertThat(result.statusCode()).isEqualTo(HttpStatus.CREATED.value()),
-                () -> assertThat(result.cookies().containsKey(booth.getId().toString())).isTrue()
+                () -> assertThat(result.cookies().containsKey(booth.getId().toString())).isTrue(),
+                () -> assertThat(likesRepository.findByBoothAndCookieKey(booth, generatedCookieValue)).isNotEmpty()
             );
         }
     }
@@ -86,7 +88,7 @@ class LikeControllerTest {
         @Test
         void delete_like_to_booth() {
             // given
-            final Booth booth = boothFixtureGenerator.generateSingleData();
+            Booth booth = boothFixtureGenerator.generateSingleData();
             Likes like = likeFixtureGenerator.generateSingleData(booth);
 
             // when
@@ -101,7 +103,8 @@ class LikeControllerTest {
             // then
             Assertions.assertAll(
                 () -> assertThat(result.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value()),
-                () -> assertThat(result.cookies().get(booth.getId().toString())).isNullOrEmpty()
+                () -> assertThat(result.cookies().get(booth.getId().toString())).isNullOrEmpty(),
+                () -> assertThat(likesRepository.findByBoothAndCookieKey(booth, like.getCookieKey())).isEmpty()
             );
         }
     }
