@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 public class CookieUtil {
 
     public Map<String, String> changeToMap(Cookie[] cookies) {
+        if (cookies == null) {
+            return Map.of();
+        }
         return Arrays.stream(cookies)
             .collect(Collectors.toMap(Cookie::getName, Cookie::getValue));
     }
