@@ -45,6 +45,6 @@ public class LikesService {
         final Likes like = likesRepository.findByBoothAndCookieKey(booth, likes.get(boothId.toString()))
             .orElseThrow(WrongLikesKey::new);
         likesRepository.delete(like);
-        return like.getId();
+        return booth.getId();
     }
 }
