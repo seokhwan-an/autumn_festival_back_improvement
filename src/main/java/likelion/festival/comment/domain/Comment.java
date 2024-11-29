@@ -1,53 +1,55 @@
 package likelion.festival.comment.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sun.istack.NotNull;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.global.entity.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.ConstraintMode;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "comment")
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Comment extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String writer;
 
-    @NotNull
     private String password;
 
-    @NotNull
     private String content;
 
-    @NotNull
     private String ip;
 
-    @NotNull
     private Boolean active;
 
-    @NotNull
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id")
+    @JoinColumn(name = "booth_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Booth booth;
 
-    public void setIp(String ip){
+    public Comment(final Long id, final String writer, final String password, final String content, final String ip, final Boolean active, final Booth booth) {
+        this.id = id;
+        this.writer = writer;
+        this.password = password;
+        this.content = content;
         this.ip = ip;
+        this.active = active;
+        this.booth = booth;
     }
 
-    public void setActivte(Boolean active){
+    public void setActivte(Boolean active) {
         this.active = active;
     }
 }

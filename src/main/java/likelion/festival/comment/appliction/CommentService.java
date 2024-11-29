@@ -87,14 +87,13 @@ public class CommentService {
     public Comment dtoToEntity(CommentRequestDto commentRequestDto) {
         String enc_pwd = getEncPwd(commentRequestDto.getPassword());
 
-        return Comment.builder()
-                .writer(commentRequestDto.getWriter())
-                .password(enc_pwd)
-                .content(commentRequestDto.getContent())
-                .booth(commentRequestDto.getBooth())
-                .ip(commentRequestDto.getIp())
-                .active(commentRequestDto.getActive())
-                .build();
+        return new Comment(null,
+                commentRequestDto.getWriter(),
+                enc_pwd,
+                commentRequestDto.getContent(),
+                commentRequestDto.getIp(),
+                commentRequestDto.getActive(),
+                commentRequestDto.getBooth());
     }
 
 
