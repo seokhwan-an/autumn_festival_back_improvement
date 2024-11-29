@@ -31,7 +31,7 @@ public class BoothFilterDto {
 
 //    private List<Image> images;
 
-    public static BoothFilterDto of(Booth booth, boolean isActive) {
+    public static BoothFilterDto of(final Booth booth, final boolean isActive) {
         return new BoothFilterDto(booth.getId(),
             booth.getBoothType(),
             booth.getTitle(),
@@ -43,7 +43,7 @@ public class BoothFilterDto {
             false);
     }
 
-    public void updateIsLike(boolean isLike) {
+    public void updateIsLike(final boolean isLike) {
         this.isLike = isLike;
     }
 }

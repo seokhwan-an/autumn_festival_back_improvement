@@ -42,7 +42,7 @@ public class BoothDto {
 
 //    private List<Image> images;
 
-    public static BoothDto of(Booth booth) {
+    public static BoothDto of(final Booth booth) {
 
         return new BoothDto(booth.getId(),
             booth.getTitle(),
@@ -59,11 +59,11 @@ public class BoothDto {
             false);
     }
 
-    public void updateIsLike(boolean isLike) {
+    public void updateIsLike(final boolean isLike) {
         this.isLike = isLike;
     }
 
-    private static List<Integer> getActiveDays(String startAt, String endAt) {
+    private static List<Integer> getActiveDays(final String startAt, final String endAt) {
         List<Integer> days = new ArrayList<>();
         int start = Integer.parseInt(startAt.substring(startAt.length() - 2));
         int end = Integer.parseInt(endAt.substring(endAt.length() - 2));

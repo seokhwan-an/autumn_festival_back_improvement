@@ -8,7 +8,5 @@ import java.util.Optional;
 
 public interface LikesRepository extends JpaRepository<Likes, Long> {
 
-    Optional<Likes> findByCookieKey(String cookieKey);
-
-    Optional<Likes> findByBoothAndCookieKey(Booth booth, String cookieKey);
+    Optional<Likes> findByBoothAndCookieKey(final Booth booth, final String cookieKey);
 }

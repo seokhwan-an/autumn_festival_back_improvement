@@ -70,16 +70,16 @@ public class Booth {
 //    @JsonIgnore
 //    private List<Image> images = new ArrayList<>();
 
-    public Booth(Long id,
-                 String title,
-                 String content,
-                 String notice,
-                 BoothType boothType,
-                 String introduction,
-                 String location,
-                 Integer boothNo,
-                 String startAt,
-                 String endAt) {
+    public Booth(final Long id,
+                 final String title,
+                 final String content,
+                 final String notice,
+                 final BoothType boothType,
+                 final String introduction,
+                 final String location,
+                 final Integer boothNo,
+                 final String startAt,
+                 final String endAt) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -92,15 +92,15 @@ public class Booth {
         this.endAt = endAt;
     }
 
-    public static Booth forSave(String title,
-                                String content,
-                                String notice,
-                                String boothType,
-                                String introduction,
-                                String location,
-                                Integer boothNo,
-                                String startAt,
-                                String endAt
+    public static Booth forSave(final String title,
+                                final String content,
+                                final String notice,
+                                final String boothType,
+                                final String introduction,
+                                final String location,
+                                final Integer boothNo,
+                                final String startAt,
+                                final String endAt
     ) {
         return new Booth(null,
             title,
@@ -114,15 +114,15 @@ public class Booth {
             endAt);
     }
 
-    public void update(String title,
-                       String content,
-                       String notice,
-                       String boothType,
-                       String introduction,
-                       String location,
-                       Integer boothNo,
-                       String startAt,
-                       String endAt
+    public void update(final String title,
+                       final String content,
+                       final String notice,
+                       final String boothType,
+                       final String introduction,
+                       final String location,
+                       final Integer boothNo,
+                       final String startAt,
+                       final String endAt
     ) {
         this.title = title;
         this.content = content;

@@ -13,7 +13,7 @@ public class LikesResponseDto {
 
     private String cookieKey;
 
-    public static LikesResponseDto of(Likes likes) {
+    public static LikesResponseDto of(final Likes likes) {
         return new LikesResponseDto(likes.getId(), likes.getBooth().getId(), likes.getCookieKey());
     }
 }

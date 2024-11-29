@@ -20,28 +20,29 @@ public class LikesService {
     private final BoothRepository boothRepository;
     private final LikeKeyGenerator likeKeyGenerator;
 
-    public LikesResponseDto create(Long id, Map<String, String> likes) {
-        Booth booth = boothRepository.findById(id)
+    public LikesResponseDto create(final Long id, final Map<String, String> likes) {
+        final Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
 
         if (likes.containsKey(id.toString())) {
             throw new IllegalArgumentException("이미 쿠키 있음");
         }
 
-        String newCookieKey = likeKeyGenerator.generateLikeKey();
-        Likes create = Likes.forSave(newCookieKey, booth);
+        final String newCookieKey = likeKeyGenerator.generateLikeKey();
+        final Likes create = Likes.forSave(newCookieKey, booth);
         likesRepository.save(create);
 
         return LikesResponseDto.of(create);
     }
 
-    public Long delete(Long boothId, Map<String, String> likes) {
-        Booth booth = boothRepository.findById(boothId)
+    public Long delete(final Long boothId, final Map<String, String> likes) {
+        final Booth booth = boothRepository.findById(boothId)
             .orElseThrow(WrongBoothId::new);
 
         if (!likes.containsKey(boothId.toString())) {
             throw new IllegalArgumentException("해당 좋아요 쿠키 없음");
         }
+
         final Likes like = likesRepository.findByBoothAndCookieKey(booth, likes.get(boothId.toString()))
             .orElseThrow(WrongLikesKey::new);
         likesRepository.delete(like);
