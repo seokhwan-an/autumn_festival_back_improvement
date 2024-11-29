@@ -1,12 +1,11 @@
 package likelion.festival.comment.appliction.dto;
 
+import likelion.festival.comment.domain.Comment;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
-@ToString
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentResponseDto {
@@ -18,4 +17,10 @@ public class CommentResponseDto {
 
     private LocalDateTime createdDateTime;
 
+    public static CommentResponseDto of(final Comment comment) {
+        return new CommentResponseDto(comment.getId(),
+            comment.getWriter(),
+            comment.getContent(),
+            comment.getCreatedDateTime());
+    }
 }

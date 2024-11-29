@@ -49,7 +49,11 @@ public class Comment extends BaseEntity {
         this.booth = booth;
     }
 
-    public void setActivte(Boolean active) {
+    public static Comment forSave(final String writer, final String password, final String content, final String ip, final Boolean active, final Booth booth) {
+        return new Comment(null, writer, password, content, ip, active, booth);
+    }
+
+    public void setActive(Boolean active) {
         this.active = active;
     }
 }
