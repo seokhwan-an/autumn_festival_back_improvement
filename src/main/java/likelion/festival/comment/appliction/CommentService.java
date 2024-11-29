@@ -42,7 +42,7 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto create(final Long boothId, final CommentRequestDto commentRequestDto, final HttpServletRequest request) {
+    public Long create(final Long boothId, final CommentRequestDto commentRequestDto) {
         final Booth booth = boothRepository.findById(boothId)
             .orElseThrow(WrongBoothId::new);
 
@@ -53,7 +53,7 @@ public class CommentService {
             commentRequestDto.getActive(),
             booth);
         commentRepository.save(comment);
-        return CommentResponseDto.of(comment);
+        return comment.getId();
     }
 
     @Transactional

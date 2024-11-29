@@ -6,9 +6,6 @@ import likelion.festival.booth.application.dto.BoothDayLocationDto;
 import likelion.festival.booth.application.dto.BoothDto;
 import likelion.festival.booth.application.dto.BoothFilterDto;
 import likelion.festival.booth.application.dto.BoothUpdate;
-import likelion.festival.comment.appliction.CommentService;
-import likelion.festival.comment.appliction.dto.CommentRequestDto;
-import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.global.cookie.CookieUtil;
 import likelion.festival.menu.application.MenuService;
 import likelion.festival.menu.application.dto.MenuRequestDto;
@@ -38,7 +35,6 @@ import java.util.Map;
 public class BoothController {
 
     private final BoothService boothService;
-    private final CommentService commentService;
     private final MenuService menuService;
     private final CookieUtil cookieUtil;
 
@@ -96,17 +92,6 @@ public class BoothController {
     private boolean checkIsLike(final HttpServletRequest request, final Long id) {
         final Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
         return likedBooths.containsKey(id.toString());
-    }
-
-    @PostMapping("{id}/comments")
-    public CommentResponseDto createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto,
-                                            HttpServletRequest request) {
-        return commentService.create(id, commentRequestDto, request);
-    }
-
-    @GetMapping("{id}/comments")
-    public List<CommentResponseDto> getCommentList(@PathVariable Long id) {
-        return commentService.getAll(id);
     }
 
     @GetMapping("{id}/menus")
