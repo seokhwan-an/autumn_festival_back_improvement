@@ -29,7 +29,7 @@ public class BoothDayLocationDto {
 
 //    private List<Image> images;
 
-    public static BoothDayLocationDto of(Booth booth) {
+    public static BoothDayLocationDto of(final Booth booth) {
         return new BoothDayLocationDto(booth.getId(),
             booth.getBoothType(),
             booth.getTitle(),
@@ -40,7 +40,7 @@ public class BoothDayLocationDto {
             false);
     }
 
-    public void updateIsLike(boolean isLike) {
+    public void updateIsLike(final boolean isLike) {
         this.isLike = isLike;
     }
 }

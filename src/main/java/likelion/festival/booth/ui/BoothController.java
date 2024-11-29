@@ -43,58 +43,58 @@ public class BoothController {
     private final CookieUtil cookieUtil;
 
     @GetMapping(params = {"filter"})
-    public ResponseEntity<List<BoothFilterDto>> boothFilter(HttpServletRequest request, @RequestParam String filter) {
-        List<BoothFilterDto> response = boothService.boothFilterAndSearch(filter);
+    public ResponseEntity<List<BoothFilterDto>> boothFilter(final HttpServletRequest request, @RequestParam final String filter) {
+        final List<BoothFilterDto> response = boothService.boothFilterAndSearch(filter);
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/top5")
-    public ResponseEntity<List<BoothFilterDto>> boothTopFive(HttpServletRequest request) {
-        List<BoothFilterDto> response = boothService.boothTopFive();
+    public ResponseEntity<List<BoothFilterDto>> boothTopFive(final HttpServletRequest request) {
+        final List<BoothFilterDto> response = boothService.boothTopFive();
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<BoothDayLocationDto>> boothDayLocation(HttpServletRequest request,
-                                                                      @RequestParam String day,
-                                                                      @RequestParam String location
+    public ResponseEntity<List<BoothDayLocationDto>> boothDayLocation(final HttpServletRequest request,
+                                                                      @RequestParam final String day,
+                                                                      @RequestParam final String location
     ) {
-        List<BoothDayLocationDto> response = boothService.boothDayLocation(day, location);
+        final List<BoothDayLocationDto> response = boothService.boothDayLocation(day, location);
         response.forEach(b -> b.updateIsLike(checkIsLike(request, b.getId())));
         return ResponseEntity.ok(response);
     }
 
     @PostMapping()
-    public ResponseEntity<Void> boothCreate(@RequestPart(value = "imgList", required = false) List<MultipartFile> imgList,
-                                            @RequestBody BoothCreate boothDto) {
-        Long savedBoothId = boothService.create(boothDto);
+    public ResponseEntity<Void> boothCreate(@RequestPart(value = "imgList", required = false) final List<MultipartFile> imgList,
+                                            @RequestBody final BoothCreate boothDto) {
+        final Long savedBoothId = boothService.create(boothDto);
         return ResponseEntity.created(URI.create("/api/booths/" + savedBoothId))
             .build();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<BoothDto> boothRead(HttpServletRequest request, @PathVariable Long id) {
-        BoothDto response = boothService.read(id);
+    public ResponseEntity<BoothDto> boothRead(final HttpServletRequest request, @PathVariable final Long id) {
+        final BoothDto response = boothService.read(id);
         response.updateIsLike(checkIsLike(request, id));
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<BoothDto> boothUpdate(@PathVariable Long id, @RequestBody BoothUpdate boothUpdateRequest) {
+    public ResponseEntity<BoothDto> boothUpdate(@PathVariable final Long id, @RequestBody final BoothUpdate boothUpdateRequest) {
         final BoothDto response = boothService.update(id, boothUpdateRequest);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> boothDelete(@PathVariable Long id) {
+    public ResponseEntity<Void> boothDelete(@PathVariable final Long id) {
         boothService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    private boolean checkIsLike(HttpServletRequest request, Long id) {
-        Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
+    private boolean checkIsLike(final HttpServletRequest request, final Long id) {
+        final Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
         return likedBooths.containsKey(id.toString());
     }
 

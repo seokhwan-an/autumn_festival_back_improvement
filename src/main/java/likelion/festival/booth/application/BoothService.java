@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,7 @@ public class BoothService {
 
     private final BoothRepository boothRepository;
 
-    public List<BoothFilterDto> boothFilterAndSearch(String search) {
+    public List<BoothFilterDto> boothFilterAndSearch(final String search) {
         List<Booth> booths = boothRepository.findByTitleContaining(search);
         if (booths.isEmpty()) {
             booths = boothRepository.findByLocation(search);
@@ -39,7 +38,7 @@ public class BoothService {
     }
 
     public List<BoothFilterDto> boothTopFive() {
-        List<Booth> booths = boothRepository.findAll();
+        final List<Booth> booths = boothRepository.findAll();
         return booths.stream()
             .map(b -> BoothFilterDto.of(b, checkActive(b)))
             .filter(BoothFilterDto::isActive)
@@ -49,9 +48,9 @@ public class BoothService {
     }
 
     //날짜와 장소로 필터링 하는 기능 ok
-    public List<BoothDayLocationDto> boothDayLocation(String day, String location) {
-        LocalDate today = LocalDate.parse(day);
-        List<Booth> booths = boothRepository.findByLocation(location);
+    public List<BoothDayLocationDto> boothDayLocation(final String day, final String location) {
+        final LocalDate today = LocalDate.parse(day);
+        final List<Booth> booths = boothRepository.findByLocation(location);
         return booths.stream()
             .filter(e -> StringToDate(e.getStartAt()).isBefore(today)
                 && StringToDate(e.getEndAt()).isAfter(today)
@@ -63,8 +62,8 @@ public class BoothService {
 
     //생성 ok
     @Transactional
-    public Long create(BoothCreate request) {
-        Booth booth = Booth.forSave(
+    public Long create(final BoothCreate request) {
+        final Booth booth = Booth.forSave(
             request.getTitle(),
             request.getContent(),
             request.getNotice(),
@@ -80,16 +79,16 @@ public class BoothService {
     }
 
     //읽기 ok
-    public BoothDto read(Long id) {
-        Booth booth = boothRepository.findById(id)
+    public BoothDto read(final Long id) {
+        final Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
         return BoothDto.of(booth);
     }
 
     //수정 ok
     @Transactional
-    public BoothDto update(Long id, BoothUpdate request) {
-        Booth booth = boothRepository.findById(id)
+    public BoothDto update(final Long id, final BoothUpdate request) {
+        final Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
 
         booth.update(request.getTitle(),
@@ -107,20 +106,20 @@ public class BoothService {
 
     //삭제
     @Transactional
-    public void delete(Long id) {
-        Booth booth = boothRepository.findById(id)
+    public void delete(final Long id) {
+        final Booth booth = boothRepository.findById(id)
             .orElseThrow(WrongBoothId::new);
         boothRepository.delete(booth);
     }
 
-    public LocalDate StringToDate(String date) {
+    private LocalDate StringToDate(final String date) {
         return LocalDate.parse(date);
     }
 
-    private Boolean checkActive(Booth booth) {
-        LocalDate start = StringToDate(booth.getStartAt());
-        LocalDate end = StringToDate(booth.getEndAt());
-        LocalDate today = LocalDate.now();
+    private Boolean checkActive(final Booth booth) {
+        final LocalDate start = StringToDate(booth.getStartAt());
+        final LocalDate end = StringToDate(booth.getEndAt());
+        final LocalDate today = LocalDate.now();
         return start.isBefore(today) && end.isAfter(today) || start.isEqual(today) || end.isEqual(today);
     }
 
