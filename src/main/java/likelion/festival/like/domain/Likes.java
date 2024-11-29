@@ -30,13 +30,13 @@ public class Likes {
     @JoinColumn(name = "booth_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Booth booth;
 
-    public Likes(Long id, String cookieKey, Booth booth) {
+    public Likes(final Long id, final String cookieKey, final Booth booth) {
         this.id = id;
         this.cookieKey = cookieKey;
         this.booth = booth;
     }
 
-    public static Likes forSave(String cookieKey, Booth booth) {
+    public static Likes forSave(final String cookieKey, final Booth booth) {
         return new Likes(null, cookieKey, booth);
     }
 }

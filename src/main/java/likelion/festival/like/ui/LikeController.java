@@ -26,22 +26,22 @@ public class LikeController {
     private final CookieUtil cookieUtil;
 
     @PostMapping
-    public ResponseEntity<LikesResponseDto> likeCreate(@PathVariable(name = "booth_id") Long id, HttpServletRequest request,
+    public ResponseEntity<LikesResponseDto> likeCreate(@PathVariable(name = "booth_id") final Long id, final HttpServletRequest request,
                                                        HttpServletResponse response) {
-        Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
-        LikesResponseDto responseDto = likesService.create(id, likedBooths);
+        final Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
+        final LikesResponseDto responseDto = likesService.create(id, likedBooths);
 
-        Cookie likeCookie = cookieUtil.generateCookie(responseDto.getBoothId().toString(), responseDto.getCookieKey());
+        final Cookie likeCookie = cookieUtil.generateCookie(responseDto.getBoothId().toString(), responseDto.getCookieKey());
         response.addCookie(likeCookie);
         return ResponseEntity.created(URI.create("/api/booths/" + id + "/likes/" + responseDto.getId())).build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> likeDelete(@PathVariable(name = "booth_id") Long id, HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
-        Long deletedId = likesService.delete(id, likedBooths);
+    public ResponseEntity<Void> likeDelete(@PathVariable(name = "booth_id") final Long id, final HttpServletRequest request, final HttpServletResponse response) {
+        final Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
+        final Long deletedId = likesService.delete(id, likedBooths);
 
-        Cookie keyCookie = cookieUtil.deleteCookie(deletedId.toString());
+        final Cookie keyCookie = cookieUtil.deleteCookie(deletedId.toString());
         response.addCookie(keyCookie);
 
         return ResponseEntity.noContent().build();
