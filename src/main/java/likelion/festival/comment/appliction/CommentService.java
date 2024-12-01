@@ -3,8 +3,8 @@ package likelion.festival.comment.appliction;
 
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.comment.appliction.dto.CommentPasswordDto;
-import likelion.festival.comment.appliction.dto.CommentRequestDto;
+import likelion.festival.comment.appliction.dto.CommentDeleteDto;
+import likelion.festival.comment.appliction.dto.CommentCreateDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,20 +41,20 @@ public class CommentService {
     }
 
     @Transactional
-    public Long create(final Long boothId, final CommentRequestDto commentRequestDto) {
+    public Long create(final Long boothId, final CommentCreateDto commentCreateDto) {
         final Booth booth = boothRepository.findById(boothId)
             .orElseThrow(WrongBoothId::new);
 
-        final Comment comment = Comment.forSave(commentRequestDto.getWriter(),
-            commentRequestDto.getPassword(),
-            commentRequestDto.getContent(),
+        final Comment comment = Comment.forSave(commentCreateDto.getWriter(),
+            commentCreateDto.getPassword(),
+            commentCreateDto.getContent(),
             booth);
         commentRepository.save(comment);
         return comment.getId();
     }
 
     @Transactional
-    public void delete(final Long commentId, final CommentPasswordDto password) {
+    public void delete(final Long commentId, final CommentDeleteDto password) {
         final Comment comment = commentRepository.findById(commentId)
             .orElseThrow(WrongCommentId::new);
         if (!comment.getPassword().equals(getEncPwd(password.getPassword()))) {

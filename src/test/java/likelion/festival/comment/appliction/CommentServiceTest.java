@@ -2,8 +2,8 @@ package likelion.festival.comment.appliction;
 
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.comment.appliction.dto.CommentPasswordDto;
-import likelion.festival.comment.appliction.dto.CommentRequestDto;
+import likelion.festival.comment.appliction.dto.CommentDeleteDto;
+import likelion.festival.comment.appliction.dto.CommentCreateDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
@@ -60,7 +60,7 @@ class CommentServiceTest {
         void create_comment() {
             // given
             final Booth booth = boothFixtureGenerator.generateSingleData();
-            final CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "내용");
+            final CommentCreateDto request = new CommentCreateDto("작성자", "비밀번호", "내용");
 
             // when
             final Long result = commentService.create(booth.getId(), request);
@@ -80,7 +80,7 @@ class CommentServiceTest {
         void create_comment_to_not_exist_booth() {
             // given
             final Long wrongBoothId = 9999999L;
-            final CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "내용");
+            final CommentCreateDto request = new CommentCreateDto("작성자", "비밀번호", "내용");
 
             // when & then
             assertThatThrownBy(() -> commentService.create(wrongBoothId, request))
@@ -126,7 +126,7 @@ class CommentServiceTest {
             // given
             final Booth booth = boothFixtureGenerator.generateSingleData();
             final Comment comment = commentFixtureGenerator.generateSingleData(booth);
-            CommentPasswordDto deleteRequest = new CommentPasswordDto("비밀번호");
+            CommentDeleteDto deleteRequest = new CommentDeleteDto("비밀번호");
 
             // when
             commentService.delete(comment.getId(), deleteRequest);
@@ -143,7 +143,7 @@ class CommentServiceTest {
             // given
             final Booth booth = boothFixtureGenerator.generateSingleData();
             final Comment comment = commentFixtureGenerator.generateSingleData(booth);
-            CommentPasswordDto deleteRequest = new CommentPasswordDto("없는 비밀번호");
+            CommentDeleteDto deleteRequest = new CommentDeleteDto("없는 비밀번호");
 
             // when & then
             assertThatThrownBy(() -> commentService.delete(comment.getId(), deleteRequest))

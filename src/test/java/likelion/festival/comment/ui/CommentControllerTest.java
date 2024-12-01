@@ -5,8 +5,8 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.comment.appliction.dto.CommentPasswordDto;
-import likelion.festival.comment.appliction.dto.CommentRequestDto;
+import likelion.festival.comment.appliction.dto.CommentDeleteDto;
+import likelion.festival.comment.appliction.dto.CommentCreateDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
@@ -66,7 +66,7 @@ class CommentControllerTest {
         void create_comment() {
             // given
             final Booth booth = boothFixtureGenerator.generateSingleData();
-            CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "내용");
+            CommentCreateDto request = new CommentCreateDto("작성자", "비밀번호", "내용");
 
             // when
             final ExtractableResponse<Response> response = RestAssured.given()
@@ -131,7 +131,7 @@ class CommentControllerTest {
             // given
             final Booth booth = boothFixtureGenerator.generateSingleData();
             final Comment comment = commentFixtureGenerator.generateSingleData(booth);
-            CommentPasswordDto request = new CommentPasswordDto("비밀번호");
+            CommentDeleteDto request = new CommentDeleteDto("비밀번호");
 
             // when
             final ExtractableResponse<Response> response = RestAssured.given()
