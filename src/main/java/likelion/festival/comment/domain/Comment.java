@@ -31,26 +31,23 @@ public class Comment extends BaseEntity {
 
     private String content;
 
-    private String ip;
-
     private Boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booth_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Booth booth;
 
-    public Comment(final Long id, final String writer, final String password, final String content, final String ip, final Boolean active, final Booth booth) {
+    public Comment(final Long id, final String writer, final String password, final String content, final Boolean active, final Booth booth) {
         this.id = id;
         this.writer = writer;
         this.password = password;
         this.content = content;
-        this.ip = ip;
         this.active = active;
         this.booth = booth;
     }
 
-    public static Comment forSave(final String writer, final String password, final String content, final String ip, final Boolean active, final Booth booth) {
-        return new Comment(null, writer, password, content, ip, active, booth);
+    public static Comment forSave(final String writer, final String password, final String content, final Booth booth) {
+        return new Comment(null, writer, password, content, true, booth);
     }
 
     public void setActive(Boolean active) {

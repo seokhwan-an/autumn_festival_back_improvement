@@ -3,7 +3,6 @@ package likelion.festival.comment.ui;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.comment.appliction.dto.CommentPasswordDto;
@@ -67,7 +66,7 @@ class CommentControllerTest {
         void create_comment() {
             // given
             final Booth booth = boothFixtureGenerator.generateSingleData();
-            CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "ip 주소", true, "내용");
+            CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "내용");
 
             // when
             final ExtractableResponse<Response> response = RestAssured.given()

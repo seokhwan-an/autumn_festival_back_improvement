@@ -60,7 +60,7 @@ class CommentServiceTest {
         void create_comment() {
             // given
             final Booth booth = boothFixtureGenerator.generateSingleData();
-            final CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "ip 주소", true, "내용");
+            final CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "내용");
 
             // when
             final Long result = commentService.create(booth.getId(), request);
@@ -71,8 +71,7 @@ class CommentServiceTest {
                 () -> assertThat(comment.getWriter()).isEqualTo(request.getWriter()),
                 () -> assertThat(comment.getPassword()).isEqualTo(request.getPassword()),
                 () -> assertThat(comment.getContent()).isEqualTo(request.getContent()),
-                () -> assertThat(comment.getIp()).isEqualTo(request.getIp()),
-                () -> assertThat(comment.getActive()).isEqualTo(request.getActive())
+                () -> assertThat(comment.getActive()).isTrue()
             );
         }
 
@@ -81,7 +80,7 @@ class CommentServiceTest {
         void create_comment_to_not_exist_booth() {
             // given
             final Long wrongBoothId = 9999999L;
-            final CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "ip 주소", true, "내용");
+            final CommentRequestDto request = new CommentRequestDto("작성자", "비밀번호", "내용");
 
             // when & then
             assertThatThrownBy(() -> commentService.create(wrongBoothId, request))

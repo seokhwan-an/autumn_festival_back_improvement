@@ -49,8 +49,6 @@ public class CommentService {
         final Comment comment = Comment.forSave(commentRequestDto.getWriter(),
             commentRequestDto.getPassword(),
             commentRequestDto.getContent(),
-            commentRequestDto.getIp(),
-            commentRequestDto.getActive(),
             booth);
         commentRepository.save(comment);
         return comment.getId();

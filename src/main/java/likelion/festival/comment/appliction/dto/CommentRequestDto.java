@@ -16,10 +16,6 @@ public class CommentRequestDto {
 
     private String password;
 
-    private String ip;
-
-    private Boolean active;
-
     private String content;
 
 }
