@@ -1,8 +1,12 @@
 package likelion.festival.comment.appliction.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class CommentPasswordDto {
     private String password;
 }

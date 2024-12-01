@@ -22,5 +22,4 @@ public class CommentRequestDto {
 
     private String content;
 
-    private Booth booth;
 }

@@ -57,14 +57,13 @@ public class CommentService {
     }
 
     @Transactional
-    public String delete(final Long commentId, final CommentPasswordDto password) {
+    public void delete(final Long commentId, final CommentPasswordDto password) {
         final Comment comment = commentRepository.findById(commentId)
             .orElseThrow(WrongCommentId::new);
         if (!comment.getPassword().equals(getEncPwd(password.getPassword()))) {
             throw new WrongPassword();
         }
         comment.setActive(Boolean.FALSE);
-        return "Ok";
     }
 
     @Transactional
