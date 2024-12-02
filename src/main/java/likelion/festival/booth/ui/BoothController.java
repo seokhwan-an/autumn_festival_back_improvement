@@ -8,8 +8,6 @@ import likelion.festival.booth.application.dto.BoothFilterDto;
 import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.global.cookie.CookieUtil;
 import likelion.festival.menu.application.MenuService;
-import likelion.festival.menu.application.dto.MenuRequestDto;
-import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -92,15 +90,5 @@ public class BoothController {
     private boolean checkIsLike(final HttpServletRequest request, final Long id) {
         final Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
         return likedBooths.containsKey(id.toString());
-    }
-
-    @GetMapping("{id}/menus")
-    public List<MenuResponseDto> getMenuList(@PathVariable Long id) {
-        return menuService.getAll(id);
-    }
-
-    @PostMapping("{id}/menus")
-    public MenuResponseDto createMenu(@PathVariable Long id, @RequestBody MenuRequestDto menuRequestDto) {
-        return menuService.create(id, menuRequestDto);
     }
 }
