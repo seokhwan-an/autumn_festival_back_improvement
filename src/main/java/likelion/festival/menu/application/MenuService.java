@@ -25,11 +25,12 @@ public class MenuService {
     private final BoothRepository boothRepository;
 
     @Transactional
-    public MenuResponseDto create(final Long boothId, final MenuCreateDto menuCreateDto) {
+    public Long create(final Long boothId, final MenuCreateDto menuCreateDto) {
         final Booth booth = boothRepository.findById(boothId)
             .orElseThrow(WrongBoothId::new);
         final Menu newMenu = Menu.forSave(menuCreateDto.getName(), menuCreateDto.getPrice(), booth);
-        return MenuResponseDto.of(newMenu);
+        menuRepository.save(newMenu);
+        return newMenu.getId();
     }
 
     public List<MenuResponseDto> getAll(final Long boothId) {
@@ -51,11 +52,10 @@ public class MenuService {
     }
 
     @Transactional
-    public String delete(final Long id) {
+    public void delete(final Long id) {
         final Menu menu = menuRepository.findById(id)
             .orElseThrow(WrongMenuId::new);
 
         menuRepository.delete(menu);
-        return "Ok";
     }
 }
