@@ -93,14 +93,4 @@ public class BoothController {
         final Map<String, String> likedBooths = cookieUtil.changeToMap(request.getCookies());
         return likedBooths.containsKey(id.toString());
     }
-
-    @GetMapping("{id}/menus")
-    public List<MenuResponseDto> getMenuList(@PathVariable Long id) {
-        return menuService.getAll(id);
-    }
-
-    @PostMapping("{id}/menus")
-    public MenuResponseDto createMenu(@PathVariable Long id, @RequestBody MenuRequestDto menuRequestDto) {
-        return menuService.create(id, menuRequestDto);
-    }
 }
