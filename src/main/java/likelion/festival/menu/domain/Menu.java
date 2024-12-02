@@ -44,4 +44,9 @@ public class Menu {
     public static Menu forSave(final String name, final int price, final Booth booth) {
         return new Menu(null, name, price, booth);
     }
+
+    public void update(final String name, final int price) {
+        this.name = name;
+        this.price = price;
+    }
 }

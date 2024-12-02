@@ -6,6 +6,7 @@ import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.global.exception.WrongMenuId;
 import likelion.festival.menu.application.dto.MenuCreateDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
+import likelion.festival.menu.application.dto.MenuUpdateDto;
 import likelion.festival.menu.domain.Menu;
 import likelion.festival.menu.domain.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,12 +42,12 @@ public class MenuService {
     }
 
     @Transactional
-    public MenuResponseDto update(final Long id, final MenuCreateDto menuCreateDto) {
+    public MenuResponseDto update(final Long id, final MenuUpdateDto menuUpdateDto) {
         final Menu menu = menuRepository.findById(id)
             .orElseThrow(WrongMenuId::new);
 
-        final Menu updateMenu = Menu.forSave(menuCreateDto.getName(), menuCreateDto.getPrice(), menu.getBooth());
-        return MenuResponseDto.of(updateMenu);
+        menu.update(menuUpdateDto.getName(), menuUpdateDto.getPrice());
+        return MenuResponseDto.of(menu);
     }
 
     @Transactional

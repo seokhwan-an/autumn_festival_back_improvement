@@ -3,6 +3,7 @@ package likelion.festival.menu.ui;
 import likelion.festival.menu.application.MenuService;
 import likelion.festival.menu.application.dto.MenuCreateDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
+import likelion.festival.menu.application.dto.MenuUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +34,8 @@ public class MenuController {
     }
 
     @PutMapping("/{id}")
-    public MenuResponseDto updateMenu(@PathVariable final Long id, @RequestBody final MenuCreateDto menuCreateDto) {
-        return menuService.update(id, menuCreateDto);
+    public MenuResponseDto updateMenu(@PathVariable final Long id, @RequestBody final MenuUpdateDto menuUpdateDto) {
+        return menuService.update(id, menuUpdateDto);
     }
 
     @DeleteMapping("/{id}")
