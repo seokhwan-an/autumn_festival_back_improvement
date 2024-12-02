@@ -1,7 +1,7 @@
 package likelion.festival.menu.ui;
 
 import likelion.festival.menu.application.MenuService;
-import likelion.festival.menu.application.dto.MenuRequestDto;
+import likelion.festival.menu.application.dto.MenuCreateDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,13 +28,13 @@ public class MenuController {
     }
 
     @PostMapping
-    public MenuResponseDto createMenu(@PathVariable(name = "booth_id") final Long id, @RequestBody final MenuRequestDto menuRequestDto) {
-        return menuService.create(id, menuRequestDto);
+    public MenuResponseDto createMenu(@PathVariable(name = "booth_id") final Long id, @RequestBody final MenuCreateDto menuCreateDto) {
+        return menuService.create(id, menuCreateDto);
     }
 
     @PutMapping("/{id}")
-    public MenuResponseDto updateMenu(@PathVariable final Long id, @RequestBody final MenuRequestDto menuRequestDto) {
-        return menuService.update(id, menuRequestDto);
+    public MenuResponseDto updateMenu(@PathVariable final Long id, @RequestBody final MenuCreateDto menuCreateDto) {
+        return menuService.update(id, menuCreateDto);
     }
 
     @DeleteMapping("/{id}")

@@ -28,20 +28,20 @@ public class Menu {
 
     private String name;
 
-    private Long price;
+    private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booth_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Booth booth;
 
-    public Menu(final Long id, final String name, final Long price, final Booth booth) {
+    public Menu(final Long id, final String name, final int price, final Booth booth) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.booth = booth;
     }
 
-    public static Menu forSave(final String name, final Long price, final Booth booth) {
+    public static Menu forSave(final String name, final int price, final Booth booth) {
         return new Menu(null, name, price, booth);
     }
 }

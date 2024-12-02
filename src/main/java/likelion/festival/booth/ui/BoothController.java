@@ -8,8 +8,6 @@ import likelion.festival.booth.application.dto.BoothFilterDto;
 import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.global.cookie.CookieUtil;
 import likelion.festival.menu.application.MenuService;
-import likelion.festival.menu.application.dto.MenuRequestDto;
-import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

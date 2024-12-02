@@ -4,7 +4,7 @@ import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.global.exception.WrongMenuId;
-import likelion.festival.menu.application.dto.MenuRequestDto;
+import likelion.festival.menu.application.dto.MenuCreateDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import likelion.festival.menu.domain.Menu;
 import likelion.festival.menu.domain.repository.MenuRepository;
@@ -24,10 +24,10 @@ public class MenuService {
     private final BoothRepository boothRepository;
 
     @Transactional
-    public MenuResponseDto create(final Long boothId, final MenuRequestDto menuRequestDto) {
+    public MenuResponseDto create(final Long boothId, final MenuCreateDto menuCreateDto) {
         final Booth booth = boothRepository.findById(boothId)
             .orElseThrow(WrongBoothId::new);
-        final Menu newMenu = Menu.forSave(menuRequestDto.getName(), menuRequestDto.getPrice(), booth);
+        final Menu newMenu = Menu.forSave(menuCreateDto.getName(), menuCreateDto.getPrice(), booth);
         return MenuResponseDto.of(newMenu);
     }
 
@@ -41,11 +41,11 @@ public class MenuService {
     }
 
     @Transactional
-    public MenuResponseDto update(final Long id, final MenuRequestDto menuRequestDto) {
+    public MenuResponseDto update(final Long id, final MenuCreateDto menuCreateDto) {
         final Menu menu = menuRepository.findById(id)
             .orElseThrow(WrongMenuId::new);
 
-        final Menu updateMenu = Menu.forSave(menuRequestDto.getName(), menuRequestDto.getPrice(), menu.getBooth());
+        final Menu updateMenu = Menu.forSave(menuCreateDto.getName(), menuCreateDto.getPrice(), menu.getBooth());
         return MenuResponseDto.of(updateMenu);
     }
 

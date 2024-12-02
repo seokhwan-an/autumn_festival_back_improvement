@@ -12,7 +12,7 @@ public class MenuResponseDto {
 
     private String name;
 
-    private Long price;
+    private int price;
 
     public static MenuResponseDto of(final Menu menu) {
         return new MenuResponseDto(menu.getId(), menu.getName(), menu.getPrice());
