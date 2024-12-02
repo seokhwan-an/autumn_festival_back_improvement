@@ -4,7 +4,14 @@ import likelion.festival.menu.application.MenuService;
 import likelion.festival.menu.application.dto.MenuRequestDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -16,22 +23,22 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping
-    public List<MenuResponseDto> getMenuList(@PathVariable(name = "booth_id") Long id) {
+    public List<MenuResponseDto> getMenuList(@PathVariable(name = "booth_id") final Long id) {
         return menuService.getAll(id);
     }
 
     @PostMapping
-    public MenuResponseDto createMenu(@PathVariable(name = "booth_id") Long id, @RequestBody MenuRequestDto menuRequestDto) {
+    public MenuResponseDto createMenu(@PathVariable(name = "booth_id") final Long id, @RequestBody final MenuRequestDto menuRequestDto) {
         return menuService.create(id, menuRequestDto);
     }
 
     @PutMapping("/{id}")
-    public MenuResponseDto updateMenu(@PathVariable Long id, @RequestBody MenuRequestDto menuRequestDto){
+    public MenuResponseDto updateMenu(@PathVariable final Long id, @RequestBody final MenuRequestDto menuRequestDto) {
         return menuService.update(id, menuRequestDto);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteMenu(@PathVariable Long id){
+    public String deleteMenu(@PathVariable final Long id) {
         return menuService.delete(id);
     }
 }

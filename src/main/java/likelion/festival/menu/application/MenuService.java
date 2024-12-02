@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -25,44 +24,37 @@ public class MenuService {
     private final BoothRepository boothRepository;
 
     @Transactional
-    public MenuResponseDto create(Long boothId, MenuRequestDto menuRequestDto) {
-        Optional<Booth> booth = boothRepository.findById(boothId);
-        if (booth.isEmpty()) {
-            throw new WrongBoothId();
-        }
-        Menu newMenu = Menu.forSave(menuRequestDto.getName(), menuRequestDto.getPrice(), booth.get());
-        Menu menu = menuRepository.save(newMenu);
-        return MenuResponseDto.of(menu);
+    public MenuResponseDto create(final Long boothId, final MenuRequestDto menuRequestDto) {
+        final Booth booth = boothRepository.findById(boothId)
+            .orElseThrow(WrongBoothId::new);
+        final Menu newMenu = Menu.forSave(menuRequestDto.getName(), menuRequestDto.getPrice(), booth);
+        return MenuResponseDto.of(newMenu);
     }
 
-    public List<MenuResponseDto> getAll(Long boothId) {
-        Optional<Booth> booth = boothRepository.findById(boothId);
-        if (booth.isEmpty()) {
-            throw new WrongBoothId();
-        }
-        List<Menu> menus = booth.get().getMenus();
+    public List<MenuResponseDto> getAll(final Long boothId) {
+        final Booth booth = boothRepository.findById(boothId)
+            .orElseThrow(WrongBoothId::new);
+
+        final List<Menu> menus = menuRepository.findByBooth(booth);
         return menus.stream().map(MenuResponseDto::of)
             .collect(Collectors.toList());
     }
 
     @Transactional
-    public MenuResponseDto update(Long id, MenuRequestDto menuRequestDto) {
-        Optional<Menu> menu = menuRepository.findById(id);
-        if (menu.isEmpty()) {
-            throw new WrongMenuId();
-        }
+    public MenuResponseDto update(final Long id, final MenuRequestDto menuRequestDto) {
+        final Menu menu = menuRepository.findById(id)
+            .orElseThrow(WrongMenuId::new);
 
-        Menu updateMenu = Menu.forSave(menuRequestDto.getName(), menuRequestDto.getPrice(), menu.get().getBooth());
+        final Menu updateMenu = Menu.forSave(menuRequestDto.getName(), menuRequestDto.getPrice(), menu.getBooth());
         return MenuResponseDto.of(updateMenu);
     }
 
     @Transactional
-    public String delete(Long id) {
-        Optional<Menu> menu = menuRepository.findById(id);
-        if (menu.isEmpty()) {
-            throw new WrongMenuId();
-        }
-        menuRepository.delete(menu.get());
+    public String delete(final Long id) {
+        final Menu menu = menuRepository.findById(id)
+            .orElseThrow(WrongMenuId::new);
+
+        menuRepository.delete(menu);
         return "Ok";
     }
 }
