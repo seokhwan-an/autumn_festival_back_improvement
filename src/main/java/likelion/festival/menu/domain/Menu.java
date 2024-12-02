@@ -40,4 +40,8 @@ public class Menu {
         this.price = price;
         this.booth = booth;
     }
+
+    public static Menu forSave(final String name, final Long price, final Booth booth) {
+        return new Menu(null, name, price, booth);
+    }
 }

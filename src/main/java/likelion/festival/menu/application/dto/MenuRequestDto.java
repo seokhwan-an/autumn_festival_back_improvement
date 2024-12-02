@@ -3,10 +3,10 @@ package likelion.festival.menu.application.dto;
 import likelion.festival.booth.domain.Booth;
 import lombok.*;
 
-@Data
-@Builder
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class MenuRequestDto {
     private Long id;
 
