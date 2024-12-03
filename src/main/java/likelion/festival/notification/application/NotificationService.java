@@ -11,9 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,35 +21,28 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
 
-    public NotificationResponseDto readNotification(Long id) {
-        Optional<Notification> notificationOptional = notificationRepository.findById(id);
-        if (notificationOptional.isEmpty()) {
-            throw new WrongNotificationId();
-        }
-
-        Notification notification = notificationOptional.get();
+    public NotificationResponseDto readNotification(final Long id) {
+        final Notification notification = notificationRepository.findById(id)
+            .orElseThrow(WrongNotificationId::new);
         return NotificationResponseDto.of(notification);
     }
 
-    public List<NotificationResponseDto> readNotificationAll(NotificationType notificationType) {
-        List<NotificationResponseDto> notificationResponse = new ArrayList<>();
+    public List<NotificationResponseDto> readNotificationAll(final NotificationType notificationType) {
         if (notificationType == null) {
-            List<Notification> notifications = notificationRepository.findAll();
-            for (Notification notification : notifications) {
-                notificationResponse.add(NotificationResponseDto.of(notification));
-            }
-            return notificationResponse;
+            final List<Notification> notifications = notificationRepository.findAll();
+            return notifications.stream()
+                .map(NotificationResponseDto::of)
+                .collect(Collectors.toList());
         }
-        List<Notification> notifications = notificationRepository.findByNotificationType(notificationType);
-        for (Notification notification : notifications) {
-            notificationResponse.add(NotificationResponseDto.of(notification));
-        }
-        return notificationResponse;
+        final List<Notification> notifications = notificationRepository.findByNotificationType(notificationType);
+        return notifications.stream()
+            .map(NotificationResponseDto::of)
+            .collect(Collectors.toList());
     }
 
     @Transactional
-    public Long createNotification(NotificationCreateDto request) {
-        Notification notification = Notification.forSave(request.getTitle(),
+    public Long createNotification(final NotificationCreateDto request) {
+        final Notification notification = Notification.forSave(request.getTitle(),
             request.getWriter(),
             request.getContent(),
             request.getNotificationType());
@@ -60,21 +52,23 @@ public class NotificationService {
     }
 
     @Transactional
-    public void deleteNotification(Long id) {
-        notificationRepository.deleteById(id);
+    public void deleteNotification(final Long id) {
+        final Notification notification = notificationRepository.findById(id)
+            .orElseThrow(WrongNotificationId::new);
+
+        notificationRepository.delete(notification);
     }
 
     @Transactional
-    public NotificationResponseDto updateNotification(Long id, NotificationUpdateDto request) {
-        Optional<Notification> notification = notificationRepository.findById(id);
-        if (notification.isEmpty()) {
-            throw new WrongNotificationId();
-        }
-        notification.get().update(request.getTitle(),
+    public NotificationResponseDto updateNotification(final Long id, final NotificationUpdateDto request) {
+        final Notification notification = notificationRepository.findById(id)
+            .orElseThrow(WrongNotificationId::new);
+
+        notification.update(request.getTitle(),
             request.getWriter(),
             request.getContent(),
             request.getNotificationType());
 
-        return NotificationResponseDto.of(notification.get());
+        return NotificationResponseDto.of(notification);
     }
 }
