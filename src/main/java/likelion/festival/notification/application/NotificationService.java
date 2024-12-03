@@ -1,7 +1,8 @@
 package likelion.festival.notification.application;
 
 import likelion.festival.global.exception.WrongNotificationId;
-import likelion.festival.notification.application.dto.NotificationDto;
+import likelion.festival.notification.application.dto.NotificationCreateDto;
+import likelion.festival.notification.application.dto.NotificationResponseDto;
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
 import likelion.festival.notification.domain.repository.NotificationRepository;
@@ -20,66 +21,38 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
 
-    public NotificationDto readNotification(Long id) {
+    public NotificationResponseDto readNotification(Long id) {
         Optional<Notification> notificationOptional = notificationRepository.findById(id);
         if (notificationOptional.isEmpty()) {
             throw new WrongNotificationId();
         }
 
         Notification notification = notificationOptional.get();
-        NotificationDto notificationDto = NotificationDto.builder()
-            .id(notification.getId())
-            .title(notification.getTitle())
-            .writer(notification.getWriter())
-            .content(notification.getContent())
-            .notificationType(notification.getNotificationType())
-            .createdDateTime(notification.getCreatedDateTime())
-            .modifiedDateTime(notification.getModifiedDateTime())
-            .build();
-
-        return notificationDto;
+        return NotificationResponseDto.of(notification);
     }
 
-    public List<NotificationDto> readNotificationAll(NotificationType notificationType) {
-        ArrayList<NotificationDto> notificationDtos = new ArrayList<>();
+    public List<NotificationResponseDto> readNotificationAll(NotificationType notificationType) {
+        List<NotificationResponseDto> notificationResponse = new ArrayList<>();
         if (notificationType == null) {
             List<Notification> notifications = notificationRepository.findAll();
             for (Notification notification : notifications) {
-                NotificationDto notificationDto = NotificationDto.builder()
-                    .id(notification.getId())
-                    .title(notification.getTitle())
-                    .writer(notification.getWriter())
-                    .content(notification.getContent())
-                    .notificationType(notification.getNotificationType())
-                    .createdDateTime(notification.getCreatedDateTime())
-                    .modifiedDateTime(notification.getModifiedDateTime())
-                    .build();
-                notificationDtos.add(notificationDto);
+                notificationResponse.add(NotificationResponseDto.of(notification));
             }
-            return notificationDtos;
+            return notificationResponse;
         }
         List<Notification> notifications = notificationRepository.findByNotificationType(notificationType);
         for (Notification notification : notifications) {
-            NotificationDto notificationDto = NotificationDto.builder()
-                .id(notification.getId())
-                .title(notification.getTitle())
-                .writer(notification.getWriter())
-                .content(notification.getContent())
-                .notificationType(notification.getNotificationType())
-                .createdDateTime(notification.getCreatedDateTime())
-                .modifiedDateTime(notification.getModifiedDateTime())
-                .build();
-            notificationDtos.add(notificationDto);
+            notificationResponse.add(NotificationResponseDto.of(notification));
         }
-        return notificationDtos;
+        return notificationResponse;
     }
 
     @Transactional
-    public Notification createNotification(NotificationDto notificationDto) {
-        Notification notification = Notification.forSave(notificationDto.getTitle(),
-            notificationDto.getWriter(),
-            notificationDto.getContent(),
-            notificationDto.getNotificationType());
+    public Notification createNotification(NotificationCreateDto request) {
+        Notification notification = Notification.forSave(request.getTitle(),
+            request.getWriter(),
+            request.getContent(),
+            request.getNotificationType());
 
         return notificationRepository.save(notification);
     }
@@ -90,15 +63,15 @@ public class NotificationService {
     }
 
     @Transactional
-    public Notification updateNotification(Long id, NotificationDto notificationDto) {
+    public Notification updateNotification(Long id, NotificationResponseDto notificationResponseDto) {
         Optional<Notification> notification = notificationRepository.findById(id);
         if (notification.isEmpty()) {
             throw new WrongNotificationId();
         }
-        notification.get().update(notificationDto.getTitle(),
-            notificationDto.getWriter(),
-            notificationDto.getContent(),
-            notificationDto.getNotificationType());
+        notification.get().update(notificationResponseDto.getTitle(),
+            notificationResponseDto.getWriter(),
+            notificationResponseDto.getContent(),
+            notificationResponseDto.getNotificationType());
 
         return notification.get();
     }

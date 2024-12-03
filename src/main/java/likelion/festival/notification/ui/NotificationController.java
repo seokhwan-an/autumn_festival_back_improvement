@@ -1,6 +1,7 @@
 package likelion.festival.notification.ui;
 
-import likelion.festival.notification.application.dto.NotificationDto;
+import likelion.festival.notification.application.dto.NotificationCreateDto;
+import likelion.festival.notification.application.dto.NotificationResponseDto;
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
 import likelion.festival.global.image.application.ImageService;
@@ -21,7 +22,7 @@ public class NotificationController {
     private final ImageService imageService;
 
     @GetMapping("{id}")
-    public NotificationDto readNotification(@PathVariable Long id){
+    public NotificationResponseDto readNotification(@PathVariable Long id){
         return notificationService.readNotification(id);
     }
 
@@ -32,8 +33,8 @@ public class NotificationController {
 
     @PostMapping
     public Integer createNotification(@RequestPart(value = "imgList",required = false) List<MultipartFile> imgList,
-                                      @RequestParam(value = "notification", required = false) NotificationDto notificationDto){
-        Notification notification = notificationService.createNotification(notificationDto);
+                                      @RequestParam(value = "notification", required = false) NotificationCreateDto notificationCreateDto){
+        Notification notification = notificationService.createNotification(notificationCreateDto);
         if (imgList==null){
             return HttpStatus.OK.value();
         }
@@ -49,7 +50,7 @@ public class NotificationController {
 
     @PutMapping("{id}")
 
-    public ResponseEntity<Notification> updateNotification(@RequestBody NotificationDto request, @PathVariable Long id){
+    public ResponseEntity<Notification> updateNotification(@RequestBody NotificationResponseDto request, @PathVariable Long id){
         return ResponseEntity.ok(notificationService.updateNotification(id, request));
     }
 
