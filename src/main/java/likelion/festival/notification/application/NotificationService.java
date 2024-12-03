@@ -43,7 +43,7 @@ public class NotificationService {
     public List<NotificationDto> readNotificationAll(NotificationType notificationType) {
         ArrayList<NotificationDto> notificationDtos = new ArrayList<>();
         if (notificationType == null) {
-            ArrayList<Notification> notifications = notificationRepository.findAll();
+            List<Notification> notifications = notificationRepository.findAll();
             for (Notification notification : notifications) {
                 NotificationDto notificationDto = NotificationDto.builder()
                     .id(notification.getId())
@@ -58,7 +58,7 @@ public class NotificationService {
             }
             return notificationDtos;
         }
-        ArrayList<Notification> notifications = notificationRepository.findByNotificationType(notificationType);
+        List<Notification> notifications = notificationRepository.findByNotificationType(notificationType);
         for (Notification notification : notifications) {
             NotificationDto notificationDto = NotificationDto.builder()
                 .id(notification.getId())
