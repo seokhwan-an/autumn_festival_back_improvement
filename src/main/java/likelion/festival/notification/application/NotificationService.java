@@ -3,6 +3,7 @@ package likelion.festival.notification.application;
 import likelion.festival.global.exception.WrongNotificationId;
 import likelion.festival.notification.application.dto.NotificationCreateDto;
 import likelion.festival.notification.application.dto.NotificationResponseDto;
+import likelion.festival.notification.application.dto.NotificationUpdateDto;
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
 import likelion.festival.notification.domain.repository.NotificationRepository;
@@ -48,13 +49,14 @@ public class NotificationService {
     }
 
     @Transactional
-    public Notification createNotification(NotificationCreateDto request) {
+    public Long createNotification(NotificationCreateDto request) {
         Notification notification = Notification.forSave(request.getTitle(),
             request.getWriter(),
             request.getContent(),
             request.getNotificationType());
 
-        return notificationRepository.save(notification);
+        notificationRepository.save(notification);
+        return notification.getId();
     }
 
     @Transactional
@@ -63,16 +65,16 @@ public class NotificationService {
     }
 
     @Transactional
-    public Notification updateNotification(Long id, NotificationResponseDto notificationResponseDto) {
+    public NotificationResponseDto updateNotification(Long id, NotificationUpdateDto request) {
         Optional<Notification> notification = notificationRepository.findById(id);
         if (notification.isEmpty()) {
             throw new WrongNotificationId();
         }
-        notification.get().update(notificationResponseDto.getTitle(),
-            notificationResponseDto.getWriter(),
-            notificationResponseDto.getContent(),
-            notificationResponseDto.getNotificationType());
+        notification.get().update(request.getTitle(),
+            request.getWriter(),
+            request.getContent(),
+            request.getNotificationType());
 
-        return notification.get();
+        return NotificationResponseDto.of(notification.get());
     }
 }
