@@ -39,7 +39,7 @@ public class NotificationController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createNotification(@RequestParam(value = "notification", required = false) final NotificationCreateDto notificationCreateDto) {
+    public ResponseEntity<Void> createNotification(@RequestBody final NotificationCreateDto notificationCreateDto) {
         final Long savedId = notificationService.createNotification(notificationCreateDto);
         return ResponseEntity.created(URI.create("/api/notifications/" + savedId)).build();
     }
