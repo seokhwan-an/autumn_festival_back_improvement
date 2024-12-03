@@ -1,56 +1,58 @@
 package likelion.festival.notification.ui;
 
-import likelion.festival.notification.application.dto.NotificationDto;
-import likelion.festival.notification.domain.Notification;
-import likelion.festival.notification.domain.NotificationType;
-import likelion.festival.global.image.application.ImageService;
 import likelion.festival.notification.application.NotificationService;
+import likelion.festival.notification.application.dto.NotificationCreateDto;
+import likelion.festival.notification.application.dto.NotificationResponseDto;
+import likelion.festival.notification.application.dto.NotificationUpdateDto;
+import likelion.festival.notification.domain.NotificationType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.List;
 
-@RestController
-@RequestMapping(value = "api/notifications")
 @RequiredArgsConstructor
+@RequestMapping(value = "api/notifications")
+@RestController
 public class NotificationController {
+
     private final NotificationService notificationService;
-    private final ImageService imageService;
 
     @GetMapping("{id}")
-    public NotificationDto readNotification(@PathVariable Long id){
-        return notificationService.readNotification(id);
+    public ResponseEntity<NotificationResponseDto> readNotification(@PathVariable final Long id) {
+        final NotificationResponseDto response = notificationService.readNotification(id);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity readNotificationAll(@RequestParam(required = false) NotificationType notificationType){
+    public ResponseEntity<List<NotificationResponseDto>> readNotificationAll(@RequestParam(required = false) final NotificationType notificationType) {
         return ResponseEntity.ok(notificationService.readNotificationAll(notificationType));
     }
 
     @PostMapping
-    public Integer createNotification(@RequestPart(value = "imgList",required = false) List<MultipartFile> imgList,
-                                      @RequestParam(value = "notification", required = false) NotificationDto notificationDto){
-        Notification notification = notificationService.createNotification(notificationDto);
-        if (imgList==null){
-            return HttpStatus.OK.value();
-        }
-        imageService.saveNotificationImage(imgList, notification);
-        return HttpStatus.OK.value();
+    public ResponseEntity<Void> createNotification(@RequestParam(value = "notification", required = false) final NotificationCreateDto notificationCreateDto) {
+        final Long savedId = notificationService.createNotification(notificationCreateDto);
+        return ResponseEntity.created(URI.create("/api/notifications/" + savedId)).build();
     }
 
     @DeleteMapping("{id}")
-    public String deleteNotification(@PathVariable Long id){
+    public ResponseEntity<Void> deleteNotification(@PathVariable final Long id) {
         notificationService.deleteNotification(id);
-        return "Ok";
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
-
-    public ResponseEntity<Notification> updateNotification(@RequestBody NotificationDto request, @PathVariable Long id){
-        return ResponseEntity.ok(notificationService.updateNotification(id, request));
+    public ResponseEntity<NotificationResponseDto> updateNotification(@PathVariable final Long id, @RequestBody final NotificationUpdateDto request) {
+        final NotificationResponseDto response = notificationService.updateNotification(id, request);
+        return ResponseEntity.ok(response);
     }
-
 }
