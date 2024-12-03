@@ -1,45 +1,58 @@
 package likelion.festival.notification.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
 import likelion.festival.global.entity.BaseEntity;
-import likelion.festival.global.image.domain.Image;
+import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
-@Data
 public class Notification extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+
     private String title;
-    @NotNull
+
     private String writer;
-    @NotNull
+
     private String content;
 
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
-    @OneToMany(mappedBy = "notification",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Image> images = new ArrayList<>();
+    // TODO : 이미지는 추후에 처리하기
+//    @OneToMany(mappedBy = "notification",cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<Image> images = new ArrayList<>();
 
     @Builder
-    public Notification(Long id, String title, String writer, String content, NotificationType notificationType, List<Image> images) {
+    public Notification(final Long id, final String title, final String writer, final String content, final NotificationType notificationType) {
         this.id = id;
         this.title = title;
         this.writer = writer;
         this.content = content;
         this.notificationType = notificationType;
-        this.images = images;
+    }
+
+    public static Notification forSave(final String title, final String writer, final String content, final NotificationType notificationType) {
+        return new Notification(null, title, writer, content, notificationType);
+    }
+
+    public void update(final String title, final String writer, final String content, final NotificationType notificationType) {
+        this.title = title;
+        this.writer = writer;
+        this.content = content;
+        this.notificationType = notificationType;
     }
 }
