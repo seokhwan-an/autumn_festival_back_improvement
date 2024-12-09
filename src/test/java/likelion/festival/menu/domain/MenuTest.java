@@ -15,7 +15,7 @@ class MenuTest {
     @Test
     void update_menu() {
         // give
-        Booth booth = new Booth(1L, "주점", "주점 소개", "주점 공지사항", BoothType.부스, "주점 소개", "주점 위치", 1, "2024-11-25", "2024-11-27");
+        Booth booth = new Booth(1L, "주점", "주점 소개", "주점 공지사항", BoothType.PUB, "주점 소개", "주점 위치", 1, "2024-11-25", "2024-11-27");
         Menu menu = new Menu(1L, "메뉴 이름", 1000, booth);
 
         // when

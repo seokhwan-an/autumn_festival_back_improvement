@@ -154,7 +154,7 @@ class BoothControllerTest {
                 () -> assertThat(response.getTitle()).isEqualTo(boothUpdate.getTitle()),
                 () -> assertThat(response.getContent()).isEqualTo(boothUpdate.getContent()),
                 () -> assertThat(response.getNotice()).isEqualTo(boothUpdate.getNotice()),
-                () -> assertThat(response.getBoothType()).isEqualTo(BoothType.valueOf(boothUpdate.getBoothType())),
+                () -> assertThat(response.getBoothType()).isEqualTo(BoothType.findByName(boothUpdate.getBoothType())),
                 () -> assertThat(response.getLocation()).isEqualTo(boothUpdate.getLocation()),
                 () -> assertThat(response.getBoothNo()).isEqualTo(boothUpdate.getBoothNo()),
                 () -> assertThat(response.getStartAt()).isEqualTo(boothUpdate.getStartAt()),
