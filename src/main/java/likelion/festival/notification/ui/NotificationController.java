@@ -34,7 +34,7 @@ public class NotificationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<NotificationResponseDto>> readNotificationAll(@RequestParam(required = false) final NotificationType notificationType) {
+    public ResponseEntity<List<NotificationResponseDto>> readNotificationAll(@RequestParam(required = false) final String notificationType) {
         return ResponseEntity.ok(notificationService.readNotificationAll(notificationType));
     }
 

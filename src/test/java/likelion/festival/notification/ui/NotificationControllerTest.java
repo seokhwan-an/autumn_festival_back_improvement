@@ -56,7 +56,7 @@ class NotificationControllerTest {
         @Test
         void create_notification() {
             // given
-            final NotificationCreateDto request = new NotificationCreateDto("공지사항 제목", "작성자", "공지사항 내용", NotificationType.전체);
+            final NotificationCreateDto request = new NotificationCreateDto("공지사항 제목", "작성자", "공지사항 내용", NotificationType.ALL);
 
             // when
             final ExtractableResponse<Response> response = RestAssured.given()
@@ -82,11 +82,11 @@ class NotificationControllerTest {
         @Test
         void read_all_notification() {
             // given
-            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.전체);
-            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.주요);
-            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.축제);
-            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.이벤트);
-            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.기타);
+            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.ALL);
+            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.IMPORTANT);
+            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.FESTIVAL);
+            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.EVENT);
+            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.OTHER);
 
             // when
             final List<NotificationResponseDto> response = RestAssured.given()
@@ -117,11 +117,11 @@ class NotificationControllerTest {
         @Test
         void read_main_type_notification() {
             // given
-            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.전체);
-            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.주요);
-            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.축제);
-            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.이벤트);
-            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.기타);
+            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.ALL);
+            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.IMPORTANT);
+            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.FESTIVAL);
+            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.EVENT);
+            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.OTHER);
 
             // when
             final List<NotificationResponseDto> response = RestAssured.given()
@@ -153,11 +153,11 @@ class NotificationControllerTest {
         @Test
         void read_festival_type_notification() {
             // given
-            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.전체);
-            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.주요);
-            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.축제);
-            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.이벤트);
-            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.기타);
+            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.ALL);
+            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.IMPORTANT);
+            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.FESTIVAL);
+            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.EVENT);
+            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.OTHER);
 
             // when
             final List<NotificationResponseDto> response = RestAssured.given()
@@ -189,11 +189,11 @@ class NotificationControllerTest {
         @Test
         void read_event_type_notification() {
             // given
-            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.전체);
-            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.주요);
-            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.축제);
-            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.이벤트);
-            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.기타);
+            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.ALL);
+            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.IMPORTANT);
+            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.FESTIVAL);
+            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.EVENT);
+            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.OTHER);
 
             // when
             final List<NotificationResponseDto> response = RestAssured.given()
@@ -225,11 +225,11 @@ class NotificationControllerTest {
         @Test
         void read_etc_type_notification() {
             // given
-            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.전체);
-            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.주요);
-            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.축제);
-            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.이벤트);
-            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.기타);
+            final List<Notification> notificationsAll = notificationFixtureGenerator.generateDatasWithType(NotificationType.ALL);
+            final List<Notification> notificationsMain = notificationFixtureGenerator.generateDatasWithType(NotificationType.IMPORTANT);
+            final List<Notification> notificationsFestival = notificationFixtureGenerator.generateDatasWithType(NotificationType.FESTIVAL);
+            final List<Notification> notificationsEvent = notificationFixtureGenerator.generateDatasWithType(NotificationType.EVENT);
+            final List<Notification> notificationsEct = notificationFixtureGenerator.generateDatasWithType(NotificationType.OTHER);
 
             // when
             final List<NotificationResponseDto> response = RestAssured.given()
@@ -261,7 +261,7 @@ class NotificationControllerTest {
         @Test
         void read_notification_with_id() {
             // given
-            final Notification notification = notificationFixtureGenerator.generateSingleDataWithType(NotificationType.전체);
+            final Notification notification = notificationFixtureGenerator.generateSingleDataWithType(NotificationType.ALL);
 
             // when
             final NotificationResponseDto response = RestAssured.given()
@@ -292,7 +292,7 @@ class NotificationControllerTest {
         @Test
         void update_notification() {
             // given
-            final Notification notification = notificationFixtureGenerator.generateSingleDataWithType(NotificationType.전체);
+            final Notification notification = notificationFixtureGenerator.generateSingleDataWithType(NotificationType.ALL);
             final NotificationUpdateDto request = new NotificationUpdateDto("공지사항 수정", notification.getWriter(), "공지사항 내용 수정", notification.getNotificationType());
 
             // when
@@ -325,7 +325,7 @@ class NotificationControllerTest {
         @Test
         void delete_notification() {
             // given
-            final Notification notification = notificationFixtureGenerator.generateSingleDataWithType(NotificationType.전체);
+            final Notification notification = notificationFixtureGenerator.generateSingleDataWithType(NotificationType.ALL);
 
             // when
             final ExtractableResponse<Response> response = RestAssured.given()

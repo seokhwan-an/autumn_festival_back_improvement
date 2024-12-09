@@ -27,14 +27,15 @@ public class NotificationService {
         return NotificationResponseDto.of(notification);
     }
 
-    public List<NotificationResponseDto> readNotificationAll(final NotificationType notificationType) {
+    public List<NotificationResponseDto> readNotificationAll(final String notificationType) {
         if (notificationType == null) {
             final List<Notification> notifications = notificationRepository.findAll();
             return notifications.stream()
                 .map(NotificationResponseDto::of)
                 .collect(Collectors.toList());
         }
-        final List<Notification> notifications = notificationRepository.findByNotificationType(notificationType);
+
+        final List<Notification> notifications = notificationRepository.findByNotificationType(NotificationType.findByName(notificationType));
         return notifications.stream()
             .map(NotificationResponseDto::of)
             .collect(Collectors.toList());
