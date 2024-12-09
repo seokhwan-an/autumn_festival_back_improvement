@@ -11,17 +11,18 @@ import org.springframework.stereotype.Component;
 public class NotificationStringToRequestDtoConverter extends Throwable implements Converter<String, NotificationResponseDto> {
     private ObjectMapper objectMapper;
 
-    public NotificationStringToRequestDtoConverter(ObjectMapper objectMapper){
+    public NotificationStringToRequestDtoConverter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
+
     NotificationResponseDto notificationResponseDto;
 
     @Override
-    public NotificationResponseDto convert(String source){
-        try{
+    public NotificationResponseDto convert(String source) {
+        try {
             notificationResponseDto = objectMapper.readValue(source, new TypeReference<NotificationResponseDto>() {
             });
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return notificationResponseDto;

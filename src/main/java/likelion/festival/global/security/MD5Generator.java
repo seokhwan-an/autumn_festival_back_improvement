@@ -12,7 +12,7 @@ public class MD5Generator {
         mdMD5.update(input.getBytes("UTF-8"));
         byte[] md5Hash = mdMD5.digest();
         StringBuilder hexMD5hash = new StringBuilder();
-        for(byte b : md5Hash) {
+        for (byte b : md5Hash) {
             String hexString = String.format("%02x", b);
             hexMD5hash.append(hexString);
         }

@@ -106,7 +106,7 @@ public class Booth {
             title,
             content,
             notice,
-            BoothType.valueOf(boothType),
+            BoothType.findByName(boothType),
             introduction,
             location,
             boothNo,
@@ -127,7 +127,7 @@ public class Booth {
         this.title = title;
         this.content = content;
         this.notice = notice;
-        this.boothType = BoothType.valueOf(boothType);
+        this.boothType = BoothType.findByName(boothType);
         this.introduction = introduction;
         this.location = location;
         this.boothNo = boothNo;

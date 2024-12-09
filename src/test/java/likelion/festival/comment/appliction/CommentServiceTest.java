@@ -2,8 +2,8 @@ package likelion.festival.comment.appliction;
 
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.comment.appliction.dto.CommentDeleteDto;
 import likelion.festival.comment.appliction.dto.CommentCreateDto;
+import likelion.festival.comment.appliction.dto.CommentDeleteDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;

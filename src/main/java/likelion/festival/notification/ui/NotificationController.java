@@ -4,7 +4,6 @@ import likelion.festival.notification.application.NotificationService;
 import likelion.festival.notification.application.dto.NotificationCreateDto;
 import likelion.festival.notification.application.dto.NotificationResponseDto;
 import likelion.festival.notification.application.dto.NotificationUpdateDto;
-import likelion.festival.notification.domain.NotificationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +33,7 @@ public class NotificationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<NotificationResponseDto>> readNotificationAll(@RequestParam(required = false) final NotificationType notificationType) {
+    public ResponseEntity<List<NotificationResponseDto>> readNotificationAll(@RequestParam(required = false) final String notificationType) {
         return ResponseEntity.ok(notificationService.readNotificationAll(notificationType));
     }
 

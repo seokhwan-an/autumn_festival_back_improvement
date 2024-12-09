@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.global.image.domain.Image;
 import likelion.festival.notification.domain.Notification;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -27,15 +31,15 @@ public class ImageDto {
     private Booth booth;
 
 
-    public Image toEntity(){
+    public Image toEntity() {
         Image build = Image.builder()
-                .id(id)
-                .originFileName(originFileName)
-                .serverFileName(serverFileName)
-                .storedFilePath(storedFilePath)
-                .notification(notification)
-                .booth(booth)
-                .build();
+            .id(id)
+            .originFileName(originFileName)
+            .serverFileName(serverFileName)
+            .storedFilePath(storedFilePath)
+            .notification(notification)
+            .booth(booth)
+            .build();
         return build;
     }
 

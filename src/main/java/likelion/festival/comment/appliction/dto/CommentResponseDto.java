@@ -1,7 +1,9 @@
 package likelion.festival.comment.appliction.dto;
 
 import likelion.festival.comment.domain.Comment;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
