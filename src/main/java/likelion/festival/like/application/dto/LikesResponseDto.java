@@ -1,7 +1,8 @@
 package likelion.festival.like.application.dto;
 
 import likelion.festival.like.domain.Likes;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @Getter
 @AllArgsConstructor

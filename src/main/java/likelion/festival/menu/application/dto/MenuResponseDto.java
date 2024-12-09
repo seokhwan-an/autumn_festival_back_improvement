@@ -1,7 +1,9 @@
 package likelion.festival.menu.application.dto;
 
 import likelion.festival.menu.domain.Menu;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @AllArgsConstructor

@@ -11,18 +11,18 @@ import org.springframework.stereotype.Component;
 public class BoothStringToRequestDtoConverter extends Throwable implements Converter<String, BoothDto> {
     private ObjectMapper objectMapper;
 
-    public BoothStringToRequestDtoConverter(ObjectMapper objectMapper){
+    public BoothStringToRequestDtoConverter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     BoothDto boothDto;
 
     @Override
-    public BoothDto convert(String source){
-        try{
+    public BoothDto convert(String source) {
+        try {
             boothDto = objectMapper.readValue(source, new TypeReference<BoothDto>() {
             });
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return boothDto;

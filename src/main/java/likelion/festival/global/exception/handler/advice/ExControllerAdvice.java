@@ -1,6 +1,12 @@
 package likelion.festival.global.exception.handler.advice;
 
-import likelion.festival.global.exception.*;
+import likelion.festival.global.exception.ExceptionCode;
+import likelion.festival.global.exception.WrongBoothId;
+import likelion.festival.global.exception.WrongCommentId;
+import likelion.festival.global.exception.WrongLikesKey;
+import likelion.festival.global.exception.WrongMenuId;
+import likelion.festival.global.exception.WrongNotificationId;
+import likelion.festival.global.exception.WrongPassword;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
