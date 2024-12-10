@@ -9,7 +9,7 @@ import likelion.festival.notification.application.dto.NotificationUpdateDto;
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
 import likelion.festival.notification.domain.repository.NotificationRepository;
-import likelion.festival.support.NotificationFixtureGenerator;
+import likelion.festival.support.fixture.NotificationFixtureGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

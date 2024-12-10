@@ -1,4 +1,4 @@
-package likelion.festival.support;
+package likelion.festival.support.fixture;
 
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.comment.domain.Comment;

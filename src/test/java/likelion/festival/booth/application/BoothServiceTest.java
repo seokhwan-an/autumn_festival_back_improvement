@@ -7,7 +7,7 @@ import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.BoothType;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.support.BoothFixtureGenerator;
+import likelion.festival.support.fixture.BoothFixtureGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

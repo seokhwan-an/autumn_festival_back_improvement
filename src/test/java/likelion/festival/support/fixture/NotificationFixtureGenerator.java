@@ -1,4 +1,4 @@
-package likelion.festival.support;
+package likelion.festival.support.fixture;
 
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
