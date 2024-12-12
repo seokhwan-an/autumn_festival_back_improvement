@@ -7,10 +7,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Getter
@@ -29,11 +32,11 @@ public class Image {
     private String storedFilePath;
 
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "notification_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Notification notification;
 
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "booth_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Booth booth;
 
     @Builder
