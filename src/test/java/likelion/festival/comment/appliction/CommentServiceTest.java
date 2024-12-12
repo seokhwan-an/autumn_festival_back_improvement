@@ -1,7 +1,6 @@
 package likelion.festival.comment.appliction;
 
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.comment.appliction.dto.CommentCreateDto;
 import likelion.festival.comment.appliction.dto.CommentDeleteDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
@@ -10,15 +9,14 @@ import likelion.festival.comment.domain.repository.CommentRepository;
 import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.global.exception.WrongCommentId;
 import likelion.festival.global.exception.WrongPassword;
+import likelion.festival.support.IntegrationTest;
 import likelion.festival.support.fixture.BoothFixtureGenerator;
 import likelion.festival.support.fixture.CommentFixtureGenerator;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +24,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-class CommentServiceTest {
+class CommentServiceTest extends IntegrationTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
@@ -36,20 +33,10 @@ class CommentServiceTest {
     private CommentFixtureGenerator commentFixtureGenerator;
 
     @Autowired
-    private BoothRepository boothRepository;
-
-    @Autowired
     private CommentRepository commentRepository;
 
     @Autowired
     private CommentService commentService;
-
-    @AfterEach
-    void cleanUp() {
-        boothRepository.deleteAll();
-        commentRepository.deleteAll();
-    }
-
 
     @DisplayName("댓글 추가")
     @Nested

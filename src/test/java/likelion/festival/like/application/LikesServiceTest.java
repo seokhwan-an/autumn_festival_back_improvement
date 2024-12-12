@@ -6,24 +6,22 @@ import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.like.domain.Likes;
 import likelion.festival.like.domain.repository.LikesRepository;
+import likelion.festival.support.IntegrationTest;
 import likelion.festival.support.fixture.BoothFixtureGenerator;
 import likelion.festival.support.fixture.LikeFixtureGenerator;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-class LikesServiceTest {
+class LikesServiceTest extends IntegrationTest {
 
     @Autowired
     private LikesRepository likesRepository;
@@ -42,12 +40,6 @@ class LikesServiceTest {
     @BeforeEach
     void setUp() {
         likesService = new LikesService(likesRepository, boothRepository, new staticLikeKeyGenerator());
-    }
-
-    @AfterEach
-    void cleanUp() {
-        boothRepository.deleteAll();
-        likesRepository.deleteAll();
     }
 
     @Nested

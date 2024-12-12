@@ -7,13 +7,12 @@ import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.BoothType;
 import likelion.festival.booth.domain.repository.BoothRepository;
+import likelion.festival.support.IntegrationTest;
 import likelion.festival.support.fixture.BoothFixtureGenerator;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,8 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest
-class BoothServiceTest {
+class BoothServiceTest extends IntegrationTest {
 
     @Autowired
     private BoothRepository boothRepository;
@@ -32,11 +30,6 @@ class BoothServiceTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
-
-    @AfterEach
-    void cleanUp() {
-        boothRepository.deleteAll();
-    }
 
     @DisplayName("부스 생성")
     @Nested
