@@ -8,25 +8,21 @@ import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.BoothType;
 import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.like.domain.Likes;
+import likelion.festival.support.AcceptanceTest;
 import likelion.festival.support.fixture.BoothFixtureGenerator;
 import likelion.festival.support.fixture.LikeFixtureGenerator;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class BoothControllerTest {
+class BoothControllerTest extends AcceptanceTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
@@ -36,19 +32,6 @@ class BoothControllerTest {
 
     @Autowired
     private BoothRepository boothRepository;
-
-    @LocalServerPort
-    private int port;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
-
-    @AfterEach
-    void cleanUp() {
-        boothRepository.deleteAll();
-    }
 
     @DisplayName("부스 생성")
     @Nested
