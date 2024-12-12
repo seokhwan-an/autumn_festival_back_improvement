@@ -4,28 +4,23 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.like.domain.Likes;
 import likelion.festival.like.domain.repository.LikesRepository;
-import likelion.festival.support.BoothFixtureGenerator;
-import likelion.festival.support.LikeFixtureGenerator;
-import org.junit.jupiter.api.AfterEach;
+import likelion.festival.support.AcceptanceTest;
+import likelion.festival.support.fixture.BoothFixtureGenerator;
+import likelion.festival.support.fixture.LikeFixtureGenerator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class LikeControllerTest {
+class LikeControllerTest extends AcceptanceTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
@@ -34,23 +29,7 @@ class LikeControllerTest {
     private LikeFixtureGenerator likeFixtureGenerator;
 
     @Autowired
-    private BoothRepository boothRepository;
-
-    @Autowired
     private LikesRepository likesRepository;
-
-    @LocalServerPort
-    private int port;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
-
-    @AfterEach
-    void cleanUp() {
-        boothRepository.deleteAll();
-    }
 
     @DisplayName("좋아요 추가")
     @Nested

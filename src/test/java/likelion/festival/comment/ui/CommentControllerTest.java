@@ -4,23 +4,19 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.comment.appliction.dto.CommentCreateDto;
 import likelion.festival.comment.appliction.dto.CommentDeleteDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
-import likelion.festival.support.BoothFixtureGenerator;
-import likelion.festival.support.CommentFixtureGenerator;
-import org.junit.jupiter.api.AfterEach;
+import likelion.festival.support.AcceptanceTest;
+import likelion.festival.support.fixture.BoothFixtureGenerator;
+import likelion.festival.support.fixture.CommentFixtureGenerator;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -28,8 +24,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CommentControllerTest {
+class CommentControllerTest extends AcceptanceTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
@@ -38,24 +33,7 @@ class CommentControllerTest {
     private CommentFixtureGenerator commentFixtureGenerator;
 
     @Autowired
-    private BoothRepository boothRepository;
-
-    @Autowired
     private CommentRepository commentRepository;
-
-    @LocalServerPort
-    private int port;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
-
-    @AfterEach
-    void cleanUp() {
-        boothRepository.deleteAll();
-        commentRepository.deleteAll();
-    }
 
     @DisplayName("댓글 추가")
     @Nested

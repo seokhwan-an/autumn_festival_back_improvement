@@ -4,22 +4,18 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.menu.application.dto.MenuCreateDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import likelion.festival.menu.application.dto.MenuUpdateDto;
 import likelion.festival.menu.domain.Menu;
 import likelion.festival.menu.domain.repository.MenuRepository;
-import likelion.festival.support.BoothFixtureGenerator;
-import likelion.festival.support.MenuFixtureGenerator;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import likelion.festival.support.AcceptanceTest;
+import likelion.festival.support.fixture.BoothFixtureGenerator;
+import likelion.festival.support.fixture.MenuFixtureGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -28,8 +24,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class MenuControllerTest {
+class MenuControllerTest extends AcceptanceTest {
 
     @Autowired
     private BoothFixtureGenerator boothFixtureGenerator;
@@ -38,24 +33,7 @@ class MenuControllerTest {
     private MenuFixtureGenerator menuFixtureGenerator;
 
     @Autowired
-    private BoothRepository boothRepository;
-
-    @Autowired
     private MenuRepository menuRepository;
-
-    @LocalServerPort
-    private int port;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
-
-    @AfterEach
-    void cleanUp() {
-        boothRepository.deleteAll();
-        menuRepository.deleteAll();
-    }
 
     @DisplayName("부스 생성")
     @Nested
