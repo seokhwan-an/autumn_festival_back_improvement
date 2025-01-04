@@ -4,10 +4,11 @@ import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.booth.exception.BoothErrorCode;
 import likelion.festival.booth.exception.BoothException;
-import likelion.festival.global.exception.WrongLikesKey;
 import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.like.domain.Likes;
 import likelion.festival.like.domain.repository.LikesRepository;
+import likelion.festival.like.exception.LikeErrorCode;
+import likelion.festival.like.exception.LikeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class LikesService {
             .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
 
         if (likes.containsKey(id.toString())) {
-            throw new IllegalArgumentException("이미 쿠키 있음");
+            throw new LikeException(LikeErrorCode.ALREADY_LIKED_BOOTH);
         }
 
         final String newCookieKey = likeKeyGenerator.generateLikeKey();
@@ -40,12 +41,8 @@ public class LikesService {
         final Booth booth = boothRepository.findById(boothId)
             .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
 
-        if (!likes.containsKey(boothId.toString())) {
-            throw new IllegalArgumentException("해당 좋아요 쿠키 없음");
-        }
-
         final Likes like = likesRepository.findByBoothAndCookieKey(booth, likes.get(boothId.toString()))
-            .orElseThrow(WrongLikesKey::new);
+            .orElseThrow(() -> new LikeException(LikeErrorCode.NOT_LIKED_BOOTH));
         likesRepository.delete(like);
         return booth.getId();
     }

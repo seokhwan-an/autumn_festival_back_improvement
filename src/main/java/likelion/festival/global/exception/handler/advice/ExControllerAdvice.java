@@ -1,7 +1,6 @@
 package likelion.festival.global.exception.handler.advice;
 
 import likelion.festival.global.exception.ExceptionCode;
-import likelion.festival.global.exception.WrongLikesKey;
 import likelion.festival.global.exception.WrongMenuId;
 import likelion.festival.global.exception.WrongNotificationId;
 import likelion.festival.global.exception.WrongPassword;
@@ -17,12 +16,6 @@ public class ExControllerAdvice {
     @ExceptionHandler(WrongPassword.class)
     public ErrorResult wrongPassword(WrongPassword e) {
         return new ErrorResult(ExceptionCode.WRONG_PASSWORD);
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(WrongLikesKey.class)
-    public ErrorResult wrongLikeKey(WrongLikesKey e) {
-        return new ErrorResult(ExceptionCode.WRONG_LIKE_KEY);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

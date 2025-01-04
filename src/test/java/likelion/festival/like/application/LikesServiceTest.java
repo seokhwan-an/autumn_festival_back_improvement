@@ -7,6 +7,8 @@ import likelion.festival.booth.exception.BoothException;
 import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.like.domain.Likes;
 import likelion.festival.like.domain.repository.LikesRepository;
+import likelion.festival.like.exception.LikeErrorCode;
+import likelion.festival.like.exception.LikeException;
 import likelion.festival.support.IntegrationTest;
 import likelion.festival.support.fixture.BoothFixtureGenerator;
 import likelion.festival.support.fixture.LikeFixtureGenerator;
@@ -83,8 +85,8 @@ class LikesServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> likesService.create(booth.getId(), Map.of(booth.getId().toString(), "boothLikeKey2")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이미 쿠키 있음");
+                .isInstanceOf(LikeException.class)
+                .hasMessage(LikeErrorCode.ALREADY_LIKED_BOOTH.getMessage());
         }
     }
 
@@ -130,8 +132,8 @@ class LikesServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> likesService.delete(booth.getId(), Map.of()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 좋아요 쿠키 없음");
+                .isInstanceOf(LikeException.class)
+                .hasMessage(LikeErrorCode.NOT_LIKED_BOOTH.getMessage());
         }
     }
 
