@@ -1,12 +1,13 @@
 package likelion.festival.notification.application;
 
-import likelion.festival.global.exception.WrongNotificationId;
 import likelion.festival.notification.application.dto.NotificationCreateDto;
 import likelion.festival.notification.application.dto.NotificationResponseDto;
 import likelion.festival.notification.application.dto.NotificationUpdateDto;
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
 import likelion.festival.notification.domain.repository.NotificationRepository;
+import likelion.festival.notification.exception.NotificationErrorCode;
+import likelion.festival.notification.exception.NotificationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ public class NotificationService {
 
     public NotificationResponseDto readNotification(final Long id) {
         final Notification notification = notificationRepository.findById(id)
-            .orElseThrow(WrongNotificationId::new);
+            .orElseThrow(() -> new NotificationException(NotificationErrorCode.NOT_FOUND_NOTIFICATION));
         return NotificationResponseDto.of(notification);
     }
 
@@ -55,7 +56,7 @@ public class NotificationService {
     @Transactional
     public void deleteNotification(final Long id) {
         final Notification notification = notificationRepository.findById(id)
-            .orElseThrow(WrongNotificationId::new);
+            .orElseThrow(() -> new NotificationException(NotificationErrorCode.NOT_FOUND_NOTIFICATION));
 
         notificationRepository.delete(notification);
     }
@@ -63,7 +64,7 @@ public class NotificationService {
     @Transactional
     public NotificationResponseDto updateNotification(final Long id, final NotificationUpdateDto request) {
         final Notification notification = notificationRepository.findById(id)
-            .orElseThrow(WrongNotificationId::new);
+            .orElseThrow(() -> new NotificationException(NotificationErrorCode.NOT_FOUND_NOTIFICATION));
 
         notification.update(request.getTitle(),
             request.getWriter(),
