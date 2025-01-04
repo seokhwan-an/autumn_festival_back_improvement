@@ -10,7 +10,6 @@ import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
 import likelion.festival.comment.exception.CommentErrorCode;
 import likelion.festival.comment.exception.CommentException;
-import likelion.festival.global.exception.WrongPassword;
 import likelion.festival.support.IntegrationTest;
 import likelion.festival.support.fixture.BoothFixtureGenerator;
 import likelion.festival.support.fixture.CommentFixtureGenerator;
@@ -136,8 +135,8 @@ class CommentServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> commentService.delete(comment.getId(), deleteRequest))
-                .isInstanceOf(WrongPassword.class);
-
+                .isInstanceOf(CommentException.class)
+                .hasMessage(CommentErrorCode.NOT_MATCH_PASSWORD.getMessage());
         }
 
         @DisplayName("댓글을 db에서 삭제한다.")

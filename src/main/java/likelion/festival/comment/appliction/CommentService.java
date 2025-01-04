@@ -12,7 +12,6 @@ import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
 import likelion.festival.comment.exception.CommentErrorCode;
 import likelion.festival.comment.exception.CommentException;
-import likelion.festival.global.exception.WrongPassword;
 import likelion.festival.global.security.Encrypt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +59,7 @@ public class CommentService {
         final Comment comment = commentRepository.findById(commentId)
             .orElseThrow(() -> new CommentException(CommentErrorCode.NOT_FOUND_COMMENT));
         if (!comment.getPassword().equals(getEncPwd(password.getPassword()))) {
-            throw new WrongPassword();
+            throw new CommentException(CommentErrorCode.NOT_MATCH_PASSWORD);
         }
         comment.setActive(Boolean.FALSE);
     }
