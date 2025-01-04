@@ -12,7 +12,7 @@ public enum CommentErrorCode implements ErrorCode {
     private final int errorCode;
     private final String errorMessage;
 
-    CommentErrorCode(HttpStatus httpStatus, int errorCode, String errorMessage) {
+    CommentErrorCode(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

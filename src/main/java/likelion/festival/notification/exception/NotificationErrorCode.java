@@ -11,7 +11,7 @@ public enum NotificationErrorCode implements ErrorCode {
     private final int errorCode;
     private final String errorMessage;
 
-    NotificationErrorCode(HttpStatus httpStatus, int errorCode, String errorMessage) {
+    NotificationErrorCode(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

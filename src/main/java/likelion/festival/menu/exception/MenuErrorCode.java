@@ -11,7 +11,7 @@ public enum MenuErrorCode implements ErrorCode {
     private final int errorCode;
     private final String errorMessage;
 
-    MenuErrorCode(HttpStatus httpStatus, int errorCode, String errorMessage) {
+    MenuErrorCode(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

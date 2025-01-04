@@ -11,7 +11,7 @@ public enum BoothErrorCode implements ErrorCode {
     private final int errorCode;
     private final String errorMessage;
 
-    BoothErrorCode(HttpStatus httpStatus, int errorCode, String errorMessage) {
+    BoothErrorCode(final HttpStatus httpStatus, final int errorCode, final String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;

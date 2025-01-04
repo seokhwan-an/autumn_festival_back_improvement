@@ -5,7 +5,7 @@ import likelion.festival.global.exception.ErrorCode;
 
 public class CommentException extends CommonException {
 
-    public CommentException(ErrorCode errorCode) {
+    public CommentException(final ErrorCode errorCode) {
         super(errorCode);
     }
 }

@@ -5,7 +5,7 @@ import likelion.festival.global.exception.ErrorCode;
 
 public class BoothException extends CommonException {
 
-    public BoothException(ErrorCode errorCode) {
+    public BoothException(final ErrorCode errorCode) {
         super(errorCode);
     }
 }

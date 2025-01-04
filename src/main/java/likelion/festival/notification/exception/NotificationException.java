@@ -5,7 +5,7 @@ import likelion.festival.global.exception.ErrorCode;
 
 public class NotificationException extends CommonException {
 
-    public NotificationException(ErrorCode errorCode) {
+    public NotificationException(final ErrorCode errorCode) {
         super(errorCode);
     }
 }

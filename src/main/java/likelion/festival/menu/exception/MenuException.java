@@ -5,7 +5,7 @@ import likelion.festival.global.exception.ErrorCode;
 
 public class MenuException extends CommonException {
 
-    public MenuException(ErrorCode errorCode) {
+    public MenuException(final ErrorCode errorCode) {
         super(errorCode);
     }
 }
