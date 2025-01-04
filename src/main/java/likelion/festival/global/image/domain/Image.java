@@ -1,6 +1,5 @@
 package likelion.festival.global.image.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.notification.domain.Notification;
 import lombok.Builder;

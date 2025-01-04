@@ -1,12 +1,13 @@
 package likelion.festival.notification.application;
 
-import likelion.festival.global.exception.WrongNotificationId;
 import likelion.festival.notification.application.dto.NotificationCreateDto;
 import likelion.festival.notification.application.dto.NotificationResponseDto;
 import likelion.festival.notification.application.dto.NotificationUpdateDto;
 import likelion.festival.notification.domain.Notification;
 import likelion.festival.notification.domain.NotificationType;
 import likelion.festival.notification.domain.repository.NotificationRepository;
+import likelion.festival.notification.exception.NotificationErrorCode;
+import likelion.festival.notification.exception.NotificationException;
 import likelion.festival.support.IntegrationTest;
 import likelion.festival.support.fixture.NotificationFixtureGenerator;
 import org.junit.jupiter.api.Assertions;
@@ -217,7 +218,8 @@ class NotificationServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> notificationService.readNotification(wrongId))
-                .isInstanceOf(WrongNotificationId.class);
+                .isInstanceOf(NotificationException.class)
+                .hasMessage(NotificationErrorCode.NOT_FOUND_NOTIFICATION.getMessage());
         }
     }
 
@@ -254,7 +256,8 @@ class NotificationServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> notificationService.updateNotification(wrongId, request))
-                .isInstanceOf(WrongNotificationId.class);
+                .isInstanceOf(NotificationException.class)
+                .hasMessage(NotificationErrorCode.NOT_FOUND_NOTIFICATION.getMessage());
         }
     }
 
@@ -283,7 +286,8 @@ class NotificationServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> notificationService.deleteNotification(wrongId))
-                .isInstanceOf(WrongNotificationId.class);
+                .isInstanceOf(NotificationException.class)
+                .hasMessage(NotificationErrorCode.NOT_FOUND_NOTIFICATION.getMessage());
         }
     }
 }
