@@ -1,12 +1,13 @@
 package likelion.festival.comment.appliction;
 
 import likelion.festival.booth.domain.Booth;
+import likelion.festival.booth.exception.BoothErrorCode;
+import likelion.festival.booth.exception.BoothException;
 import likelion.festival.comment.appliction.dto.CommentCreateDto;
 import likelion.festival.comment.appliction.dto.CommentDeleteDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
-import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.global.exception.WrongCommentId;
 import likelion.festival.global.exception.WrongPassword;
 import likelion.festival.support.IntegrationTest;
@@ -71,8 +72,8 @@ class CommentServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> commentService.create(wrongBoothId, request))
-                .isInstanceOf(WrongBoothId.class);
-
+                .isInstanceOf(BoothException.class)
+                .hasMessage(BoothErrorCode.NOT_FOUND_BOOTH.getMessage());
         }
     }
 

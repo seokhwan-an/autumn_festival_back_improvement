@@ -2,7 +2,8 @@ package likelion.festival.like.application;
 
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.global.exception.WrongBoothId;
+import likelion.festival.booth.exception.BoothErrorCode;
+import likelion.festival.booth.exception.BoothException;
 import likelion.festival.global.exception.WrongLikesKey;
 import likelion.festival.like.application.dto.LikesResponseDto;
 import likelion.festival.like.domain.Likes;
@@ -22,7 +23,7 @@ public class LikesService {
 
     public LikesResponseDto create(final Long id, final Map<String, String> likes) {
         final Booth booth = boothRepository.findById(id)
-            .orElseThrow(WrongBoothId::new);
+            .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
 
         if (likes.containsKey(id.toString())) {
             throw new IllegalArgumentException("이미 쿠키 있음");
@@ -37,7 +38,7 @@ public class LikesService {
 
     public Long delete(final Long boothId, final Map<String, String> likes) {
         final Booth booth = boothRepository.findById(boothId)
-            .orElseThrow(WrongBoothId::new);
+            .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
 
         if (!likes.containsKey(boothId.toString())) {
             throw new IllegalArgumentException("해당 좋아요 쿠키 없음");

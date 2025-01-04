@@ -1,7 +1,6 @@
 package likelion.festival.global.exception.handler.advice;
 
 import likelion.festival.global.exception.ExceptionCode;
-import likelion.festival.global.exception.WrongBoothId;
 import likelion.festival.global.exception.WrongCommentId;
 import likelion.festival.global.exception.WrongLikesKey;
 import likelion.festival.global.exception.WrongMenuId;
@@ -14,12 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ExControllerAdvice {
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(WrongBoothId.class)
-    public ErrorResult wrongBoothId(WrongBoothId e) {
-        return new ErrorResult(ExceptionCode.WRONG_BOOTH_ID);
-    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(WrongCommentId.class)

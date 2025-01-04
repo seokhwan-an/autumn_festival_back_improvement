@@ -7,7 +7,8 @@ import likelion.festival.booth.application.dto.BoothFilterDto;
 import likelion.festival.booth.application.dto.BoothUpdate;
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.global.exception.WrongBoothId;
+import likelion.festival.booth.exception.BoothErrorCode;
+import likelion.festival.booth.exception.BoothException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,7 +82,7 @@ public class BoothService {
     //읽기 ok
     public BoothDto read(final Long id) {
         final Booth booth = boothRepository.findById(id)
-            .orElseThrow(WrongBoothId::new);
+            .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
         return BoothDto.of(booth);
     }
 
@@ -89,7 +90,7 @@ public class BoothService {
     @Transactional
     public BoothDto update(final Long id, final BoothUpdate request) {
         final Booth booth = boothRepository.findById(id)
-            .orElseThrow(WrongBoothId::new);
+            .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
 
         booth.update(request.getTitle(),
             request.getContent(),
@@ -108,7 +109,7 @@ public class BoothService {
     @Transactional
     public void delete(final Long id) {
         final Booth booth = boothRepository.findById(id)
-            .orElseThrow(WrongBoothId::new);
+            .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
         boothRepository.delete(booth);
     }
 
@@ -122,5 +123,4 @@ public class BoothService {
         final LocalDate today = LocalDate.now();
         return start.isBefore(today) && end.isAfter(today) || start.isEqual(today) || end.isEqual(today);
     }
-
 }

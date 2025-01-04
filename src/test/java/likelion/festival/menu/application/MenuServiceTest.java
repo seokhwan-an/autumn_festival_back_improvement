@@ -1,7 +1,8 @@
 package likelion.festival.menu.application;
 
 import likelion.festival.booth.domain.Booth;
-import likelion.festival.global.exception.WrongBoothId;
+import likelion.festival.booth.exception.BoothErrorCode;
+import likelion.festival.booth.exception.BoothException;
 import likelion.festival.global.exception.WrongMenuId;
 import likelion.festival.menu.application.dto.MenuCreateDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
@@ -69,7 +70,8 @@ class MenuServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> menuService.create(wrongBoothId, request))
-                .isInstanceOf(WrongBoothId.class);
+                .isInstanceOf(BoothException.class)
+                .hasMessage(BoothErrorCode.NOT_FOUND_BOOTH.getMessage());
         }
     }
 
@@ -106,7 +108,8 @@ class MenuServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> menuService.getAll(wrongBoothId))
-                .isInstanceOf(WrongBoothId.class);
+                .isInstanceOf(BoothException.class)
+                .hasMessage(BoothErrorCode.NOT_FOUND_BOOTH.getMessage());
         }
     }
 

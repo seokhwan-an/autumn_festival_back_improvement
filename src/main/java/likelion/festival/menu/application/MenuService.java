@@ -2,7 +2,8 @@ package likelion.festival.menu.application;
 
 import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
-import likelion.festival.global.exception.WrongBoothId;
+import likelion.festival.booth.exception.BoothErrorCode;
+import likelion.festival.booth.exception.BoothException;
 import likelion.festival.global.exception.WrongMenuId;
 import likelion.festival.menu.application.dto.MenuCreateDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
@@ -27,7 +28,7 @@ public class MenuService {
     @Transactional
     public Long create(final Long boothId, final MenuCreateDto menuCreateDto) {
         final Booth booth = boothRepository.findById(boothId)
-            .orElseThrow(WrongBoothId::new);
+            .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
         final Menu newMenu = Menu.forSave(menuCreateDto.getName(), menuCreateDto.getPrice(), booth);
         menuRepository.save(newMenu);
         return newMenu.getId();
@@ -35,7 +36,7 @@ public class MenuService {
 
     public List<MenuResponseDto> getAll(final Long boothId) {
         final Booth booth = boothRepository.findById(boothId)
-            .orElseThrow(WrongBoothId::new);
+            .orElseThrow(() -> new BoothException(BoothErrorCode.NOT_FOUND_BOOTH));
 
         final List<Menu> menus = menuRepository.findByBooth(booth);
         return menus.stream().map(MenuResponseDto::of)
