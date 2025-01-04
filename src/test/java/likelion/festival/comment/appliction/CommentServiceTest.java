@@ -8,7 +8,8 @@ import likelion.festival.comment.appliction.dto.CommentDeleteDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
-import likelion.festival.global.exception.WrongCommentId;
+import likelion.festival.comment.exception.CommentErrorCode;
+import likelion.festival.comment.exception.CommentException;
 import likelion.festival.global.exception.WrongPassword;
 import likelion.festival.support.IntegrationTest;
 import likelion.festival.support.fixture.BoothFixtureGenerator;
@@ -161,7 +162,8 @@ class CommentServiceTest extends IntegrationTest {
 
             // when & then
             assertThatThrownBy(() -> commentService.force_delete(wrongCommentId))
-                .isInstanceOf(WrongCommentId.class);
+                .isInstanceOf(CommentException.class)
+                .hasMessage(CommentErrorCode.NOT_FOUND_COMMENT.getMessage());
         }
     }
 }

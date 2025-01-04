@@ -10,7 +10,8 @@ import likelion.festival.comment.appliction.dto.CommentDeleteDto;
 import likelion.festival.comment.appliction.dto.CommentResponseDto;
 import likelion.festival.comment.domain.Comment;
 import likelion.festival.comment.domain.repository.CommentRepository;
-import likelion.festival.global.exception.WrongCommentId;
+import likelion.festival.comment.exception.CommentErrorCode;
+import likelion.festival.comment.exception.CommentException;
 import likelion.festival.global.exception.WrongPassword;
 import likelion.festival.global.security.Encrypt;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +58,7 @@ public class CommentService {
     @Transactional
     public void delete(final Long commentId, final CommentDeleteDto password) {
         final Comment comment = commentRepository.findById(commentId)
-            .orElseThrow(WrongCommentId::new);
+            .orElseThrow(() -> new CommentException(CommentErrorCode.NOT_FOUND_COMMENT));
         if (!comment.getPassword().equals(getEncPwd(password.getPassword()))) {
             throw new WrongPassword();
         }
@@ -67,7 +68,7 @@ public class CommentService {
     @Transactional
     public String force_delete(final Long commentId) {
         final Comment comment = commentRepository.findById(commentId)
-            .orElseThrow(WrongCommentId::new);
+            .orElseThrow(() -> new CommentException(CommentErrorCode.NOT_FOUND_COMMENT));
         commentRepository.delete(comment);
         return "Ok";
     }

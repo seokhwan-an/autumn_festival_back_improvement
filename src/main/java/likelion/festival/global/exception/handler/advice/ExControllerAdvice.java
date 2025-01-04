@@ -1,7 +1,6 @@
 package likelion.festival.global.exception.handler.advice;
 
 import likelion.festival.global.exception.ExceptionCode;
-import likelion.festival.global.exception.WrongCommentId;
 import likelion.festival.global.exception.WrongLikesKey;
 import likelion.festival.global.exception.WrongMenuId;
 import likelion.festival.global.exception.WrongNotificationId;
@@ -13,12 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ExControllerAdvice {
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(WrongCommentId.class)
-    public ErrorResult wrongCommentId(WrongCommentId e) {
-        return new ErrorResult(ExceptionCode.WRONG_COMMENT_ID);
-    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(WrongPassword.class)
