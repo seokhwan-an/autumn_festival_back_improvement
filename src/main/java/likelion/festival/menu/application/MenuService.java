@@ -4,12 +4,13 @@ import likelion.festival.booth.domain.Booth;
 import likelion.festival.booth.domain.repository.BoothRepository;
 import likelion.festival.booth.exception.BoothErrorCode;
 import likelion.festival.booth.exception.BoothException;
-import likelion.festival.global.exception.WrongMenuId;
 import likelion.festival.menu.application.dto.MenuCreateDto;
 import likelion.festival.menu.application.dto.MenuResponseDto;
 import likelion.festival.menu.application.dto.MenuUpdateDto;
 import likelion.festival.menu.domain.Menu;
 import likelion.festival.menu.domain.repository.MenuRepository;
+import likelion.festival.menu.exception.MenuErrorCode;
+import likelion.festival.menu.exception.MenuException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,7 @@ public class MenuService {
     @Transactional
     public MenuResponseDto update(final Long id, final MenuUpdateDto menuUpdateDto) {
         final Menu menu = menuRepository.findById(id)
-            .orElseThrow(WrongMenuId::new);
+            .orElseThrow(() -> new MenuException(MenuErrorCode.NOT_FOUND_MENU));
 
         menu.update(menuUpdateDto.getName(), menuUpdateDto.getPrice());
         return MenuResponseDto.of(menu);
@@ -55,7 +56,7 @@ public class MenuService {
     @Transactional
     public void delete(final Long id) {
         final Menu menu = menuRepository.findById(id)
-            .orElseThrow(WrongMenuId::new);
+            .orElseThrow(() -> new MenuException(MenuErrorCode.NOT_FOUND_MENU));
 
         menuRepository.delete(menu);
     }

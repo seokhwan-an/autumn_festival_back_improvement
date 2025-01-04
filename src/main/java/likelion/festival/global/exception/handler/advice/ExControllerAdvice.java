@@ -1,7 +1,6 @@
 package likelion.festival.global.exception.handler.advice;
 
 import likelion.festival.global.exception.ExceptionCode;
-import likelion.festival.global.exception.WrongMenuId;
 import likelion.festival.global.exception.WrongNotificationId;
 import likelion.festival.global.exception.WrongPassword;
 import org.springframework.http.HttpStatus;
@@ -24,9 +23,4 @@ public class ExControllerAdvice {
         return new ErrorResult(ExceptionCode.WRONG_NOTIFICATION_ID);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(WrongMenuId.class)
-    public ErrorResult wrongMenuId(WrongMenuId e) {
-        return new ErrorResult(ExceptionCode.WRONG_MENU_ID);
-    }
 }
